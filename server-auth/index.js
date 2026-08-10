@@ -11,9 +11,14 @@ const buscarRoutes = require('./routes/buscar.routes');
 // ...
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// En producción, restringe el CORS a tu dominio del frontend (Vercel o tu dominio propio)
+// usando la variable de entorno FRONTEND_URL. Si no está definida, permite todo (útil en local).
+const corsOptions = process.env.FRONTEND_URL
+  ? { origin: process.env.FRONTEND_URL }
+  : {};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
