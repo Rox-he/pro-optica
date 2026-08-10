@@ -1,0 +1,53 @@
+<div class="auth-page">
+  <div class="auth-card">
+
+    <ng-container *ngIf="!registrado">
+      <div class="auth-brand">
+        <svg width="38" height="24" viewBox="0 0 92 60" fill="none"><circle cx="22" cy="30" r="18" stroke="#13315C" stroke-width="5"/><path d="M90 12 A28 28 0 1 0 90 48" stroke="#13315C" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+        <span>Óptica <strong>Convicción</strong></span>
+      </div>
+      <h1>Crear cuenta</h1>
+      <p class="auth-sub">Regístrate para agendar citas fácilmente</p>
+
+      <form (ngSubmit)="enviar()">
+        <div class="field-group">
+          <label>Nombre completo</label>
+          <input type="text" name="nombre" [(ngModel)]="nombre" required placeholder="Tu nombre">
+        </div>
+        <div class="field-group">
+          <label>Correo electrónico</label>
+          <input type="email" name="email" [(ngModel)]="email" required placeholder="tu@correo.mx">
+        </div>
+        <div class="field-group">
+          <label>Contraseña <small>(mín. 8 caracteres)</small></label>
+          <input type="password" name="password" [(ngModel)]="password" required placeholder="••••••••">
+        </div>
+        <div class="field-group">
+          <label>Confirmar contraseña</label>
+          <input type="password" name="confirmar" [(ngModel)]="confirmar" required placeholder="••••••••">
+        </div>
+        <p class="auth-error" *ngIf="error">{{ error }}</p>
+        <button type="submit" class="btn-auth" [disabled]="cargando">
+          {{ cargando ? 'Registrando...' : 'Crear cuenta' }}
+        </button>
+      </form>
+
+      <p class="auth-link">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+      <p class="auth-link"><a routerLink="/">← Volver al sitio</a></p>
+    </ng-container>
+
+    <div class="auth-confirmacion" *ngIf="registrado">
+      <div class="confirmacion-icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h1>¡Cuenta creada!</h1>
+      <p class="auth-sub">Tu cuenta se registró correctamente. Ahora inicia sesión con tu correo y contraseña.</p>
+      <a routerLink="/login" class="btn-auth btn-auth-link">Ir a iniciar sesión</a>
+      <p class="auth-link redirect-note">Serás redirigido automáticamente en unos segundos...</p>
+    </div>
+
+  </div>
+</div>

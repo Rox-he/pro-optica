@@ -1,0 +1,40 @@
+<section id="inicio" class="hero-oc">
+  <app-season-particles></app-season-particles>
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-promo-chip" *ngIf="evento" [style.background]="evento.colorAcento" [style.color]="evento.colorFondo">
+          {{ evento.nombre }} · {{ evento.descuento }}
+        </div>
+        <p class="eyebrow-oc">Óptica · Examen visual · Armazones · Querétaro</p>
+        <h1 class="hero-title-oc">Ve el mundo con<br><span class="accent-word">claridad</span><br>y confianza</h1>
+        <p class="hero-sub-oc">Exámenes de la vista computarizados, armazones de diseñador y lentes de la más alta calidad óptica, todo en una sola visita en el corazón de Querétaro.</p>
+        <div class="hero-actions">
+          <a routerLink="/contacto" class="btn-oc-cta">Agenda tu cita</a>
+          <a routerLink="/servicios" class="btn-oc-outline">Ver servicios</a>
+        </div>
+        <div class="hero-stats-oc">
+          <div><span class="stat-num">+500</span><small>pacientes atendidos</small></div>
+          <div><span class="stat-num">20+</span><small>marcas disponibles</small></div>
+          <div><span class="stat-num">2</span><small>sucursales en Querétaro</small></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="hero-eye-svg" viewBox="0 0 300 220">
+          <ellipse cx="150" cy="120" rx="130" ry="80" fill="#13315C"/>
+          <circle cx="150" cy="120" r="50" fill="#0D213A"/>
+          <circle cx="150" cy="120" r="28" fill="#6B8FCE"/>
+          <circle cx="150" cy="120" r="14" fill="#0D213A"/>
+          <circle cx="162" cy="110" r="5" fill="#FFFBFE" opacity="0.8"/>
+          <line x1="90" y1="50" x2="82" y2="22" stroke="#6B8FCE" stroke-width="6" stroke-linecap="round"/>
+          <line x1="118" y1="40" x2="114" y2="10" stroke="#6B8FCE" stroke-width="6" stroke-linecap="round"/>
+          <line x1="150" y1="38" x2="150" y2="8" stroke="#6B8FCE" stroke-width="6" stroke-linecap="round"/>
+          <line x1="182" y1="40" x2="186" y2="10" stroke="#6B8FCE" stroke-width="6" stroke-linecap="round"/>
+          <line x1="210" y1="50" x2="218" y2="22" stroke="#6B8FCE" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <p class="hero-eye-caption">Accesibilidad · Calidad · Confianza</p>
+      </div>
+    </div>
+  </div>
+</section>

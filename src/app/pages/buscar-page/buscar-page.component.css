@@ -1,0 +1,11 @@
+.buscar-oc{ padding:60px 0 90px; min-height:60vh; }
+.buscar-oc h1{ font-size:1.8rem; color:var(--oxford); margin:.4rem 0 2rem; }
+.estado{ color:var(--muted); }
+.resultados-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.3rem; }
+.resultado-card{ display:block; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.4rem; color:inherit; transition:transform .15s, box-shadow .15s; }
+.resultado-card:hover{ transform:translateY(-4px); box-shadow:0 14px 30px rgba(13,33,58,.1); }
+.resultado-tipo{ font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--un-blue); font-weight:700; }
+.resultado-card h3{ font-size:1.05rem; color:var(--prussian); margin:.4rem 0; }
+.resultado-card p{ font-size:.88rem; color:#374B5E; margin:0; line-height:1.6; }
+@media(max-width:900px){ .resultados-grid{ grid-template-columns:1fr; } }

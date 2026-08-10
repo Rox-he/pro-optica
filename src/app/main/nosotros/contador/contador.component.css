@@ -1,0 +1,3 @@
+.contador-oc{ text-align:center; }
+.counter-oc{ display:block; font-weight:700; font-size:2rem; color:var(--un-blue); }
+.contador-oc small{ color:rgba(255,251,254,.6); font-size:.78rem; display:block; }

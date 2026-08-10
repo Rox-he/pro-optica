@@ -1,0 +1,7 @@
+.service-card-oc{ background:var(--snow); border:1px solid var(--border); border-radius:var(--radius);
+  padding:2rem 1.6rem; height:100%; transition:transform .2s, box-shadow .2s; scroll-margin-top:90px; }
+.service-card-oc:hover{ transform:translateY(-6px); box-shadow:0 16px 36px rgba(19,49,92,.12); }
+.svc-icon{ width:52px; height:52px; border-radius:50%; background:rgba(107,143,206,.12);
+  color:var(--prussian); display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem; }
+.service-card-oc h3{ font-size:1.1rem; font-weight:700; margin-bottom:.6rem; color:var(--oxford); }
+.service-card-oc p{ color:#374B5E; font-size:.95rem; font-weight:400; margin:0; line-height:1.75; }

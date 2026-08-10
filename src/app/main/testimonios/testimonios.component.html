@@ -1,0 +1,14 @@
+<section id="testimonios" class="section-oc section-alt">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Lo que dicen de nosotros</p>
+      <h2>Pacientes que ya ven con claridad</h2>
+    </div>
+    <div class="testi-wrap">
+      <app-testimonio-card [texto]="testimonios[actual].texto" [autor]="testimonios[actual].autor"></app-testimonio-card>
+      <div class="testi-dots">
+        <span *ngFor="let t of testimonios; let i = index" [class.active]="i === actual" (click)="actual = i"></span>
+      </div>
+    </div>
+  </div>
+</section>

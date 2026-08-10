@@ -1,0 +1,13 @@
+<section id="servicios" class="section-oc">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Lo que hacemos</p>
+      <h2>Servicios pensados para tu vista</h2>
+    </div>
+    <div class="servicios-grid">
+      <app-servicio-card *ngFor="let s of servicios"
+        [icon]="s.icon" [titulo]="s.titulo" [descripcion]="s.descripcion" [idAncla]="s.idAncla">
+      </app-servicio-card>
+    </div>
+  </div>
+</section>

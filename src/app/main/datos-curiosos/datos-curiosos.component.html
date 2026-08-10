@@ -1,0 +1,15 @@
+<section id="datos-curiosos" class="section-oc">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Datos curiosos</p>
+      <h2>¿Qué armazón le queda a tu rostro?</h2>
+      <p class="dc-sub">La regla de oro de la óptica: el armazón ideal contrasta con la forma de tu cara.</p>
+    </div>
+    <div class="dc-grid">
+      <app-forma-card *ngFor="let f of formas"
+        [rostroSvg]="f.rostroSvg" [rostroNombre]="f.rostroNombre"
+        [armazonRecomendado]="f.armazonRecomendado" [tip]="f.tip">
+      </app-forma-card>
+    </div>
+  </div>
+</section>

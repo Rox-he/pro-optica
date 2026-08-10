@@ -1,0 +1,12 @@
+.faq-oc{ padding:60px 0 90px; }
+.faq-container{ max-width:720px; }
+.faq-container h1{ font-size:1.9rem; color:var(--oxford); margin:.3rem 0 2.2rem; }
+.faq-item{ border-bottom:1px solid var(--border); }
+.faq-pregunta{
+  width:100%; background:none; border:none; text-align:left; cursor:pointer;
+  padding:1.1rem 0; display:flex; justify-content:space-between; align-items:center;
+  font-family:'Montserrat',sans-serif; font-weight:600; font-size:.96rem; color:var(--oxford);
+}
+.faq-icono{ color:var(--un-blue); font-size:1.2rem; font-weight:700; }
+.faq-respuesta{ color:#374B5E; font-size:.9rem; line-height:1.7; padding-bottom:1.1rem; margin:0; }
+.faq-item.abierta .faq-pregunta{ color:var(--prussian); }

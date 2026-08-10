@@ -1,0 +1,38 @@
+<section class="editor-page section-oc">
+  <div class="container">
+    <div class="editor-header">
+      <div>
+        <p class="eyebrow-oc eyebrow-dark">Panel de edición</p>
+        <h1>Editor de contenido</h1>
+        <p class="editor-sub">Bienvenido, <strong>{{ auth.usuario?.nombre }}</strong>
+          — Rol: <span class="badge-editor-chip">{{ auth.usuario?.rol }}</span>
+        </p>
+      </div>
+      <a routerLink="/perfil" class="btn-back">← Mi perfil</a>
+    </div>
+
+    <div class="editor-modules">
+      <div class="editor-mod-card">
+        <h3>Productos</h3>
+        <p>Agregar, editar o quitar productos del catálogo.</p>
+        <a routerLink="/editor/productos" class="btn-mod">Administrar</a>
+      </div>
+      <div class="editor-mod-card">
+        <h3>Citas</h3>
+        <p>Ver solicitudes de citas recibidas y marcarlas como atendidas.</p>
+        <a routerLink="/editor/citas" class="btn-mod">Administrar</a>
+      </div>
+
+      <div class="editor-mod-card" *ngIf="auth.usuario?.rol === 'Administrador'">
+        <h3>Usuarios</h3>
+        <p>Gestionar cuentas, roles y accesos del sistema.</p>
+        <a routerLink="/admin" class="btn-mod">Administrar</a>
+      </div>
+      <div class="editor-mod-card editor-mod-restringido" *ngIf="auth.usuario?.rol !== 'Administrador'">
+        <h3>🔒 Usuarios</h3>
+        <p>Solo el Administrador puede gestionar usuarios.</p>
+        <span class="badge-restringido">Sin acceso</span>
+      </div>
+    </div>
+  </div>
+</section>

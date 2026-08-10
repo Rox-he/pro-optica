@@ -1,0 +1,10 @@
+<section class="legal-oc">
+  <div class="container legal-container">
+    <h1>{{ data.titulo }}</h1>
+    <p class="legal-fecha">Última actualización: {{ data.actualizado }}</p>
+    <div class="legal-bloque" *ngFor="let s of data.secciones">
+      <h2>{{ s.h }}</h2>
+      <p>{{ s.p }}</p>
+    </div>
+  </div>
+</section>

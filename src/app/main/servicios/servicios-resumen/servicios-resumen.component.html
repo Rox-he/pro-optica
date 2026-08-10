@@ -1,0 +1,17 @@
+<section id="servicios" class="section-oc resumen-oc">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Lo que hacemos</p>
+      <h2>Servicios pensados para tu vista</h2>
+    </div>
+    <div class="mini-grid">
+      <div class="mini-item" *ngFor="let s of servicios">
+        <div class="mini-icon" [innerHTML]="s.icon"></div>
+        <span>{{ s.titulo }}</span>
+      </div>
+    </div>
+    <div class="resumen-cta">
+      <a routerLink="/servicios" class="btn-oc-outline-dark">Ver todos los servicios →</a>
+    </div>
+  </div>
+</section>

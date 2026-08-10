@@ -1,0 +1,4 @@
+.testi-wrap{ max-width:700px; margin:2.5rem auto 0; }
+.testi-dots{ display:flex; justify-content:center; gap:.5rem; margin-top:1.2rem; }
+.testi-dots span{ width:10px; height:10px; border-radius:50%; background:var(--border); cursor:pointer; }
+.testi-dots span.active{ background:var(--prussian); }

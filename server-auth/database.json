@@ -1,0 +1,132 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Admin Convicción",
+      "email": "admin@opticaconviccion.mx",
+      "password_hash": "$2a$10$gsDTHk1Q8InvCf1gWyoUTeMVShKHLzTJ1TTesKgkw/wxqPh3vLZly",
+      "activo": true,
+      "creado_en": "2026-07-18T17:05:09.505Z"
+    },
+    {
+      "id": 2,
+      "nombre": "Editor Demo",
+      "email": "editor@opticaconviccion.mx",
+      "password_hash": "$2a$10$bPZDz5lnLv7pIQ/cEr.9gOj2kk8uC0JFfhED2EI3hADNeyXnFwECW",
+      "activo": true,
+      "creado_en": "2026-07-18T17:05:09.568Z"
+    },
+    {
+      "id": 3,
+      "nombre": "Usuario Demo",
+      "email": "usuario@opticaconviccion.mx",
+      "password_hash": "$2a$10$8ps76frnxcYu2.ZMMDPhoePWJzUwY5lt7dDUsX40.vE.jxqAbQe8K",
+      "activo": true,
+      "creado_en": "2026-07-18T17:05:09.626Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "nombre": "Administrador",
+      "descripcion": "Acceso total al sitio y gestión de usuarios"
+    },
+    {
+      "id": 2,
+      "nombre": "Editor",
+      "descripcion": "Puede editar contenido pero no gestionar usuarios"
+    },
+    {
+      "id": 3,
+      "nombre": "Usuario",
+      "descripcion": "Acceso básico: ver contenido y enviar formularios"
+    }
+  ],
+  "permisos": [
+    {
+      "id": 1,
+      "nombre": "ver_dashboard",
+      "descripcion": "Ver panel de administración"
+    },
+    {
+      "id": 2,
+      "nombre": "gestionar_usuarios",
+      "descripcion": "Crear, editar y eliminar usuarios"
+    },
+    {
+      "id": 3,
+      "nombre": "editar_contenido",
+      "descripcion": "Editar servicios y productos"
+    },
+    {
+      "id": 4,
+      "nombre": "ver_contenido",
+      "descripcion": "Ver páginas públicas del sitio"
+    },
+    {
+      "id": 5,
+      "nombre": "enviar_formulario",
+      "descripcion": "Enviar formulario de contacto"
+    }
+  ],
+  "usuario_rol": [
+    {
+      "usuario_id": 1,
+      "rol_id": 1
+    },
+    {
+      "usuario_id": 3,
+      "rol_id": 3
+    },
+    {
+      "usuario_id": 2,
+      "rol_id": 2
+    }
+  ],
+  "rol_permiso": [
+    {
+      "rol_id": 1,
+      "permiso_id": 1
+    },
+    {
+      "rol_id": 1,
+      "permiso_id": 2
+    },
+    {
+      "rol_id": 1,
+      "permiso_id": 3
+    },
+    {
+      "rol_id": 1,
+      "permiso_id": 4
+    },
+    {
+      "rol_id": 1,
+      "permiso_id": 5
+    },
+    {
+      "rol_id": 2,
+      "permiso_id": 1
+    },
+    {
+      "rol_id": 2,
+      "permiso_id": 3
+    },
+    {
+      "rol_id": 2,
+      "permiso_id": 4
+    },
+    {
+      "rol_id": 2,
+      "permiso_id": 5
+    },
+    {
+      "rol_id": 3,
+      "permiso_id": 4
+    },
+    {
+      "rol_id": 3,
+      "permiso_id": 5
+    }
+  ]
+}

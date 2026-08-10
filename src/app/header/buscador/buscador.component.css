@@ -1,0 +1,36 @@
+.buscador-oc{ position:relative; }
+.buscador-icono{
+  background:none; border:none; cursor:pointer; color:var(--oxford);
+  display:flex; align-items:center; padding:.4rem;
+}
+.buscador-panel{
+  position:absolute; top:calc(100% + .5rem); right:0;
+  background:var(--snow); border:1px solid var(--border); border-radius:12px;
+  box-shadow:0 12px 32px rgba(13,33,58,.15);
+  width:320px; padding:.8rem; z-index:50;
+}
+.buscador-form{ display:flex; gap:.5rem; }
+.buscador-form input{
+  flex:1; border:1px solid var(--border); border-radius:8px;
+  padding:.5rem .7rem; font-family:'Montserrat',sans-serif; font-size:.9rem;
+}
+.buscador-form input:focus{ outline:none; border-color:var(--un-blue); }
+.buscador-form button{
+  background:var(--prussian); color:var(--snow); border:none; border-radius:8px;
+  padding:.5rem 1rem; font-size:.85rem; cursor:pointer;
+}
+.buscador-sugerencias{ margin-top:.6rem; display:flex; flex-direction:column; gap:.4rem; }
+.sugerencia-item{
+  display:flex; align-items:center; gap:.6rem; padding:.4rem;
+  border-radius:8px; cursor:pointer; transition:background .15s;
+}
+.sugerencia-item:hover{ background:var(--bg); }
+.sugerencia-img{ width:42px; height:42px; object-fit:cover; border-radius:6px; flex-shrink:0; }
+.sugerencia-info{ display:flex; flex-direction:column; }
+.sugerencia-nombre{ font-size:.85rem; color:var(--oxford); font-weight:600; }
+.sugerencia-precio{ font-size:.78rem; color:var(--un-blue); }
+.buscador-sin-resultados{ margin-top:.6rem; font-size:.82rem; color:var(--muted); text-align:center; }
+
+@media(max-width:700px){
+  .buscador-panel{ width:280px; right:-40px; }
+}

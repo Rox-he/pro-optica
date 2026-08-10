@@ -1,0 +1,50 @@
+<form #contactForm="ngForm" (ngSubmit)="enviar(contactForm)" novalidate class="form-oc">
+  <div class="form-row">
+    <div class="form-group">
+      <label>Nombre completo</label>
+      <input name="nombre" [(ngModel)]="modelo.nombre" required #nombre="ngModel" class="fc-oc">
+      <small *ngIf="formInvalido && nombre.invalid">Escribe tu nombre.</small>
+    </div>
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input name="telefono" [(ngModel)]="modelo.telefono" required pattern="[0-9]{10}" #telefono="ngModel" class="fc-oc">
+      <small *ngIf="formInvalido && telefono.invalid">Escribe un teléfono de 10 dígitos.</small>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Correo electrónico</label>
+      <input type="email" name="correo" [(ngModel)]="modelo.correo" required #correo="ngModel" class="fc-oc">
+      <small *ngIf="formInvalido && correo.invalid">Escribe un correo válido.</small>
+    </div>
+    <div class="form-group">
+      <label>Servicio de interés</label>
+      <select name="servicio" [(ngModel)]="modelo.servicio" required #servicio="ngModel" class="fc-oc">
+        <option value="" disabled selected>Selecciona una opción</option>
+        <option>Examen visual</option>
+        <option>Armazones</option>
+        <option>Lentes de contacto</option>
+        <option>Ajuste / mantenimiento</option>
+      </select>
+      <small *ngIf="formInvalido && servicio.invalid">Selecciona un servicio.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Sucursal</label>
+    <select name="sucursal" [(ngModel)]="modelo.sucursal" required #sucursal="ngModel" class="fc-oc">
+      <option value="" disabled selected>Selecciona sucursal</option>
+      <option>Lomas de San Pedrito — Av. Belén 802</option>
+      <option>Nacional — Av. Pie de la Cuesta 2504</option>
+    </select>
+    <small *ngIf="formInvalido && sucursal.invalid">Selecciona una sucursal.</small>
+  </div>
+  <div class="form-group">
+    <label>Mensaje (opcional)</label>
+    <textarea name="mensaje" [(ngModel)]="modelo.mensaje" rows="3" class="fc-oc" placeholder="Cuéntanos qué necesitas..."></textarea>
+  </div>
+  <button type="submit" class="btn-oc-form" [disabled]="enviando">
+  {{ enviando ? '⏳ Enviando...' : 'Enviar solicitud' }}
+</button>
+  <span *ngIf="enviado" class="form-status success">✅ ¡Solicitud enviada! Te contactaremos a la brevedad.</span>
+  <span *ngIf="error" class="form-status error">❌ Hubo un error al enviar. Intenta de nuevo.</span>
+</form>

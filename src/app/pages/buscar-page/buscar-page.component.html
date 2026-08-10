@@ -1,0 +1,19 @@
+<section class="buscar-oc">
+  <div class="container">
+    <p class="eyebrow-oc eyebrow-dark">Buscador</p>
+    <h1>Resultados para "{{ query }}"</h1>
+
+    <p *ngIf="cargando" class="estado">Buscando...</p>
+    <p *ngIf="!cargando && resultados.length === 0" class="estado">
+      No encontramos resultados. Intenta con "lentes", "examen" o "sucursal".
+    </p>
+
+    <div class="resultados-grid" *ngIf="!cargando && resultados.length > 0">
+      <a [routerLink]="r.link" class="resultado-card" *ngFor="let r of resultados">
+        <span class="resultado-tipo">{{ r.tipo }}</span>
+        <h3>{{ r.titulo }}</h3>
+        <p>{{ r.descripcion }}</p>
+      </a>
+    </div>
+  </div>
+</section>

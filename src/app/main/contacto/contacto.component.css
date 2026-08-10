@@ -1,0 +1,7 @@
+.contacto-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:2.5rem; margin-top:2rem; }
+.contacto-sucursales-col{ display:flex; flex-direction:column; gap:1rem; }
+.sucursal-card{ background:rgba(13,33,58,.4); border:1px solid rgba(107,143,206,.2);
+  border-radius:var(--radius); padding:1.6rem; }
+.sucursal-card h3{ font-weight:700; color:var(--un-blue); margin-bottom:1rem; font-size:1.1rem; }
+.sucursal-card p{ font-size:.88rem; color:rgba(255,251,254,.75); font-weight:300; margin:.3rem 0; }
+@media(max-width:900px){ .contacto-grid{ grid-template-columns:1fr; } }

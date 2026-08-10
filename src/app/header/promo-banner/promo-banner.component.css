@@ -1,0 +1,34 @@
+.promo-banner-oc{ position:relative; color:#fff; padding:2.2rem 0; overflow:hidden; }
+.promo-inner{ display:grid; grid-template-columns:90px 1fr 90px; align-items:center; gap:1.5rem; }
+.promo-icono{ display:flex; justify-content:center; opacity:.9; }
+.promo-icono-izq{ justify-content:flex-end; }
+.promo-icono-der{ justify-content:flex-start; }
+
+.promo-centro{ text-align:center; max-width:560px; margin:0 auto; }
+.promo-eyebrow{ text-transform:uppercase; letter-spacing:.16em; font-size:.72rem; font-weight:700; margin:0 0 .6rem; }
+
+.promo-ribbon{
+  display:inline-flex; align-items:center; gap:.6rem; padding:.5rem 1.6rem; font-weight:800; margin-bottom:1rem;
+  clip-path: polygon(3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%, 0% 50%);
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+.promo-ribbon-label{ font-size:.85rem; }
+.promo-ribbon-descuento{ font-size:1.15rem; }
+
+.promo-titulo{ font-size:1.9rem; font-weight:700; margin:.3rem 0 .6rem; color:#fff; }
+.promo-descripcion{ font-size:.95rem; line-height:1.6; color:rgba(255,255,255,.85); margin-bottom:1.3rem; }
+
+.promo-cta{ display:inline-block; border-radius:999px; padding:.65rem 1.8rem; font-weight:700; font-size:.9rem; text-decoration:none; transition:transform .15s; }
+.promo-cta:hover{ transform:translateY(-2px); }
+
+.promo-cerrar{
+  position:absolute; top:1rem; right:1.2rem; background:rgba(255,255,255,.15); border:none; color:#fff;
+  width:30px; height:30px; border-radius:50%; font-size:1.1rem; cursor:pointer; line-height:1; z-index:5;
+}
+.promo-cerrar:hover{ background:rgba(255,255,255,.3); }
+
+@media(max-width:900px){
+  .promo-inner{ grid-template-columns:1fr; }
+  .promo-icono{ display:none; }
+  .promo-titulo{ font-size:1.5rem; }
+}

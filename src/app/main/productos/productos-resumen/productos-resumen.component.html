@@ -1,0 +1,20 @@
+<section id="productos" class="section-oc section-alt resumen-oc">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Catálogo</p>
+      <h2>Productos destacados</h2>
+    </div>
+    <div class="mini-productos-grid">
+      <div class="mini-prod" *ngFor="let p of productos">
+        <div class="mini-prod-img">
+          <img [src]="'/images/' + p.imagen" [alt]="p.nombre">
+        </div>
+        <h4>{{ p.nombre }}</h4>
+        <p>${{ p.precio }}</p>
+      </div>
+    </div>
+    <div class="resumen-cta">
+      <a routerLink="/productos" class="btn-oc-outline-dark">Ver catálogo completo →</a>
+    </div>
+  </div>
+</section>

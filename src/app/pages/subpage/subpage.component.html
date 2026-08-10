@@ -1,0 +1,30 @@
+<section class="subpage-oc" *ngIf="data">
+  <div class="subpage-hero">
+    <div class="container">
+      <a [routerLink]="data.volverLink" class="volver-link">← {{ data.volverTexto }}</a>
+      <div class="subpage-head">
+        <div class="subpage-icon" [innerHTML]="iconoSafe"></div>
+        <div>
+          <p class="eyebrow-oc">{{ data.eyebrow }}</p>
+          <h1>{{ data.titulo }}</h1>
+        </div>
+      </div>
+      <p class="subpage-resumen">{{ data.resumen }}</p>
+    </div>
+  </div>
+
+  <div class="container subpage-body">
+    <div class="subpage-puntos-card">
+      <p class="subpage-puntos-titulo">Qué incluye</p>
+      <ul class="subpage-puntos">
+        <li *ngFor="let punto of data.puntos">
+          <span class="check-icon">
+            <svg width="14" height="14" viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          {{ punto }}
+        </li>
+      </ul>
+      <a [routerLink]="data.ctaLink" class="btn-oc-cta">{{ data.ctaTexto }}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+<section class="faq-oc">
+  <div class="container faq-container">
+    <p class="eyebrow-oc eyebrow-dark">Ayuda</p>
+    <h1>Preguntas frecuentes</h1>
+
+    <div class="faq-item" *ngFor="let item of preguntas" [class.abierta]="item.abierta">
+      <button class="faq-pregunta" (click)="toggle(item)">
+        {{ item.pregunta }}
+        <span class="faq-icono">{{ item.abierta ? '−' : '+' }}</span>
+      </button>
+      <p class="faq-respuesta" *ngIf="item.abierta">{{ item.respuesta }}</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,5 @@
+.categoria-bloque{ margin-top:3rem; scroll-margin-top:110px; }
+.categoria-bloque:first-of-type{ margin-top:2.5rem; }
+.categoria-titulo{ font-size:1.2rem; font-weight:700; color:var(--prussian); margin-bottom:1.2rem; }
+.productos-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+@media(max-width:900px){ .productos-grid{ grid-template-columns:1fr; } }

@@ -1,0 +1,7 @@
+.forma-card-oc{ background:var(--snow); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.6rem; text-align:center; height:100%; }
+.forma-rostro{ margin-bottom:.8rem; }
+.forma-card-oc h4{ font-size:1rem; font-weight:700; color:var(--oxford); margin-bottom:.4rem; }
+.forma-armazon{ font-size:.88rem; color:var(--prussian); margin-bottom:.5rem; }
+.forma-armazon strong{ color:var(--un-blue); }
+.forma-tip{ font-size:.82rem; color:#374B5E; font-weight:400; line-height:1.6; margin:0; }

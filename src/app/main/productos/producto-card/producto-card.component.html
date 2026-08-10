@@ -1,0 +1,8 @@
+<div class="product-card-oc" [class.destacado]="destacado" appPointerHighlight>
+  <div class="prod-img">
+    <img [src]="'/images/' + imagen" [alt]="nombre">
+  </div>
+  <h4>{{ nombre }}</h4>
+  <p class="prod-price">${{ precio }}</p>
+  <a routerLink="/contacto" class="btn-oc-sm">Consultar</a>
+</div>

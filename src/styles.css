@@ -1,0 +1,134 @@
+/* ============================================
+   FUENTES — Montserrat (manual de marca)
+   ============================================ */
+@font-face { font-family:'Montserrat'; src:url('/fonts/montserrat-thin.woff2') format('woff2'); font-weight:100; font-display:swap; }
+@font-face { font-family:'Montserrat'; src:url('/fonts/montserrat-regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Montserrat'; src:url('/fonts/montserrat-semibold.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face { font-family:'Montserrat'; src:url('/fonts/montserrat-bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+
+/* ============================================
+   TOKENS DE MARCA — Óptica Convicción
+   ============================================ */
+:root{
+  --oxford:    #0D213A;
+  --prussian:  #13315C;
+  --un-blue:   #6B8FCE;
+  --snow:      #FFFBFE;
+  --bg:        #F4F7FC;
+  --border:    #D8E3F0;
+  --muted:     #5A6E8A;
+  --radius:    16px;
+}
+
+*{ box-sizing:border-box; }
+html, body{ margin:0; padding:0; }
+body{
+  font-family:'Montserrat', sans-serif;
+  font-weight:400;
+  color:var(--oxford);
+  background:var(--bg);
+  scroll-behavior:smooth;
+}
+h1,h2,h3,h4,h5{ font-family:'Montserrat',sans-serif; font-weight:700; }
+a{ text-decoration:none; }
+
+.eyebrow-oc{
+  text-transform:uppercase; letter-spacing:.14em; font-size:.75rem;
+  color:var(--un-blue); font-weight:600; margin-bottom:.8rem;
+}
+.eyebrow-dark{ color:var(--prussian)!important; }
+.section-head-oc{ text-align:center; max-width:640px; margin:0 auto; }
+.section-head-oc h2{ font-size:2rem; font-weight:700; color:var(--oxford); }
+.section-oc{ padding:80px 0; }
+.section-alt{ background:var(--snow); }
+.section-dark{ background:var(--prussian); color:var(--snow); }
+.section-dark .section-head-oc h2{ color:var(--snow); }
+.section-dark .eyebrow-oc{ color:var(--un-blue); }
+.container{ max-width:1200px; margin:0 auto; padding:0 24px; }
+
+.btn-oc-cta{
+  background:var(--prussian); color:var(--snow)!important;
+  font-weight:600; border:none; border-radius:999px; cursor:pointer;
+  padding:.6rem 1.5rem; font-size:.9rem; display:inline-block;
+  transition:background .2s, transform .15s;
+}
+.btn-oc-cta:hover{ background:var(--oxford); transform:translateY(-1px); }
+.btn-oc-outline{
+  background:transparent; color:var(--snow)!important;
+  border:2px solid rgba(255,255,255,.7); border-radius:999px; cursor:pointer;
+  font-weight:600; padding:.6rem 1.5rem; font-size:.9rem; display:inline-block;
+}
+.btn-oc-outline:hover{ background:rgba(255,255,255,.15); border-color:#fff; }
+
+
+/* ============================================================
+   ESTILOS DEL HIGHLIGHT (agrégalos a tu styles.scss global,
+   o al scss del componente donde uses las tarjetas)
+   ============================================================ */
+
+.pointer-highlight--activo {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-temporada, #00A4E0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+
+
+/* ============================================================
+   REGISTRO DE LA DIRECTIVA Y EL COMPONENTE
+   (en el módulo donde declares tus componentes compartidos,
+   por ejemplo shared.module.ts o app.module.ts)
+   ============================================================ */
+
+/*
+import { PointerHighlightDirective } from './shared/directives/pointer-highlight.directive';
+import { SeasonUpdateComponent } from './shared/components/season-update/season-update.component';
+
+@NgModule({
+  declarations: [
+    PointerHighlightDirective,
+    SeasonUpdateComponent,
+    // ...tus demás componentes
+  ],
+  // ...
+})
+export class SharedModule { }
+*/
+
+
+/* ============================================================
+   EJEMPLO: OTRO COMPONENTE ESCUCHANDO EL EVENTO DE TEMPORADA
+   (por ejemplo, tu catálogo de productos, para filtrar
+   automáticamente por la colección de la temporada activa)
+   ============================================================ */
+
+/*
+import { Temporada } from '../../core/models/temporada.model';
+
+ngOnInit(): void {
+  window.addEventListener('temporada:actualizada', (e: Event) => {
+    const temporada = (e as CustomEvent<Temporada>).detail;
+    console.log('Nueva temporada activa:', temporada.nombre);
+    this.filtrarProductosPorTemporada(temporada.id);
+  });
+}
+*/
+
+.scroll-reveal{
+  opacity:0;
+  transform:translateY(60px) scale(.92);
+  filter:blur(6px);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1),
+             transform 1s cubic-bezier(.16,1,.3,1),
+             filter 1s cubic-bezier(.16,1,.3,1);
+}
+.scroll-reveal-visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  filter:blur(0);
+}
+
+@media(prefers-reduced-motion: reduce){
+  .scroll-reveal{ opacity:1; transform:none; filter:none; transition:none; }
+}

@@ -1,0 +1,18 @@
+<section id="productos" class="section-oc section-alt">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc eyebrow-dark">Catálogo</p>
+      <h2>Productos destacados</h2>
+    </div>
+
+    <div *ngFor="let cat of categorias" [id]="cat.idAncla" class="categoria-bloque">
+      <h3 class="categoria-titulo">{{ cat.titulo }}</h3>
+      <div class="productos-grid">
+        <app-producto-card *ngFor="let p of cat.productos"
+          [id]="'producto-' + p.id"
+          [imagen]="p.imagen" [nombre]="p.nombre" [precio]="p.precio"
+          [destacado]="p.id === productoDestacadoId"></app-producto-card>
+      </div>
+    </div>
+  </div>
+</section>

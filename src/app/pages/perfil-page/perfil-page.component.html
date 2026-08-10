@@ -1,0 +1,45 @@
+<section class="perfil-page" *ngIf="usuario">
+
+  <div class="perfil-hero">
+    <div class="perfil-avatar">{{ usuario.nombre[0].toUpperCase() }}</div>
+    <div class="perfil-info">
+      <p class="perfil-saludo">Hola de nuevo,</p>
+      <h1>{{ usuario.nombre }}</h1>
+      <p class="perfil-email">{{ usuario.email }}</p>
+      <span class="perfil-badge" [class]="'badge-' + usuario.rol.toLowerCase().replace(' ','')">
+        {{ usuario.rol }}
+      </span>
+    </div>
+  </div>
+
+  <div class="perfil-permisos">
+    <h2>Mis permisos</h2>
+    <div class="permisos-grid">
+      <div class="permiso-chip" *ngFor="let p of usuario.permisos">
+        <span class="chip-check">✓</span> {{ p.replace('_',' ') }}
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-accesos" *ngIf="auth.tieneRol('Administrador','Editor')">
+    <h2>Accesos rápidos</h2>
+    <div class="accesos-grid">
+      <a routerLink="/admin" class="acceso-card acceso-admin" *ngIf="auth.tieneRol('Administrador')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Gestión de usuarios
+      </a>
+      <a routerLink="/editor" class="acceso-card acceso-editor" *ngIf="auth.tieneRol('Administrador','Editor')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+        </svg>
+        Editar contenido
+      </a>
+    </div>
+  </div>
+
+</section>

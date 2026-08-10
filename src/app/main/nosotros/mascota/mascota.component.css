@@ -1,0 +1,4 @@
+.mascota-oc{ text-align:center; }
+.mascota-svg{ filter:drop-shadow(0 10px 24px rgba(0,0,0,.25)); }
+.mascota-nombre{ color:var(--snow); font-weight:700; margin:.8rem 0 .2rem; }
+.mascota-frase{ color:rgba(255,251,254,.65); font-size:.85rem; font-weight:300; max-width:220px; margin:0 auto; }

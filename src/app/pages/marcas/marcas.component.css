@@ -1,0 +1,30 @@
+.marcas-oc{ padding:56px 0; }
+.marcas-label{
+  text-align:center; text-transform:uppercase; letter-spacing:.12em;
+  font-size:.75rem; color:var(--muted); font-weight:600; margin-bottom:2rem;
+}
+.marcas-grid{
+  display:flex; align-items:stretch; justify-content:center;
+  gap:1.5rem; flex-wrap:wrap;
+}
+.marca-card{
+  background:var(--snow);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.2rem 2rem;
+  display:flex; align-items:center; justify-content:center;
+  width:170px; height:80px;
+  transition:transform .2s, box-shadow .2s, border-color .2s;
+}
+.marca-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 24px rgba(13,33,58,.1);
+  border-color:var(--un-blue);
+}
+.marca-logo{
+  max-height:36px; max-width:100%; object-fit:contain;
+}
+@media(max-width:700px){
+  .marcas-grid{ gap:1rem; }
+  .marca-card{ width:140px; height:68px; padding:1rem 1.4rem; }
+}

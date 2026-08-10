@@ -1,0 +1,29 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <img src="/images/logo.png" alt="Óptica Convicción" class="auth-brand-logo">
+      <span>Óptica <strong>Convicción</strong></span>
+    </div>
+    <h1>Iniciar sesión</h1>
+    <p class="auth-sub">Accede a tu cuenta para continuar</p>
+
+    <form (ngSubmit)="enviar()" #f="ngForm">
+      <div class="field-group">
+        <label>Correo electrónico</label>
+        <input type="email" name="email" [(ngModel)]="email" required placeholder="tu@correo.mx">
+      </div>
+      <div class="field-group">
+        <label>Contraseña</label>
+        <input type="password" name="password" [(ngModel)]="password" required placeholder="••••••••">
+      </div>
+      <p class="auth-error" *ngIf="error">{{ error }}</p>
+      <button type="submit" class="btn-auth" [disabled]="cargando">
+        {{ cargando ? 'Entrando...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <!-- Registro público oculto: la ruta /register sigue activa por si se necesita,
+         pero no se muestra ningún enlace hacia ella en la interfaz. -->
+    <p class="auth-link"><a routerLink="/">← Volver al sitio</a></p>
+  </div>
+</div>

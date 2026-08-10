@@ -1,0 +1,14 @@
+<div
+  class="season-particles"
+  *ngIf="temporada"
+  [class.season-particles--flotar]="temporada.animacion === 'flotar'"
+>
+  <span
+    class="season-particles__item"
+    *ngFor="let p of particulas"
+    [style.left.%]="p.izquierda"
+    [style.animation-delay.s]="p.retraso"
+    [style.animation-duration.s]="p.duracion"
+    [style.font-size.rem]="p.tamano"
+  >{{ temporada.particula }}</span>
+</div>

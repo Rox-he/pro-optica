@@ -1,0 +1,25 @@
+<div class="promo-banner-oc" *ngIf="evento && !cerrado" [style.background]="evento.colorFondo">
+  <button class="promo-cerrar" (click)="cerrar()" aria-label="Cerrar aviso">×</button>
+
+  <div class="container promo-inner">
+    <div class="promo-icono promo-icono-izq" [style.color]="evento.colorAcento" [innerHTML]="iconoSafe"></div>
+
+    <div class="promo-centro">
+      <p class="promo-eyebrow" [style.color]="evento.colorAcento">Promoción</p>
+
+      <div class="promo-ribbon" [style.background]="evento.colorAcento" [style.color]="evento.colorFondo">
+        <span class="promo-ribbon-label">{{ evento.nombre }}</span>
+        <span class="promo-ribbon-descuento">{{ evento.descuento }}</span>
+      </div>
+
+      <h2 class="promo-titulo">{{ evento.titulo }}</h2>
+      <p class="promo-descripcion">{{ evento.descripcion }}</p>
+
+      <a routerLink="/productos" class="promo-cta" [style.background]="evento.colorAcento" [style.color]="evento.colorFondo">
+        Conoce la promoción
+      </a>
+    </div>
+
+    <div class="promo-icono promo-icono-der" [style.color]="evento.colorAcento" [innerHTML]="iconoSafe"></div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.navbar-oc{ background:var(--snow); padding:12px 0; position:sticky; top:0; z-index:1000;
+  box-shadow:0 2px 12px rgba(13,33,58,.06); }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; }
+.navbar-brand{ display:flex; align-items:center; gap:.6rem; color:var(--prussian); }
+.logo-text{ font-size:1.1rem; font-weight:700; color:var(--prussian); }
+.logo-text strong{ color:var(--un-blue); }
+
+.nav-list{ display:flex; align-items:center; gap:.2rem; list-style:none; margin:0; padding:0; }
+.nav-item{ position:relative; }
+.nav-link{
+  background:none; border:none; cursor:pointer; font-family:inherit;
+  color:var(--oxford); font-weight:500; font-size:.92rem;
+  padding:.5rem .8rem; display:flex; align-items:center; gap:.3rem;
+}
+.nav-link.active, .nav-link:hover{ color:var(--prussian); }
+.ms-cta{ margin-left:1rem; }
+
+.dropdown-menu-oc{
+  position:absolute; top:110%; left:0; min-width:220px; background:var(--snow);
+  border-radius:10px; box-shadow:0 16px 36px rgba(13,33,58,.18); padding:.5rem;
+  list-style:none; margin:0; opacity:0; visibility:hidden; transform:translateY(6px);
+  transition:all .18s ease;
+}
+.dropdown-menu-oc.show{ opacity:1; visibility:visible; transform:translateY(0); }
+.dropdown-menu-oc li a{ display:block; padding:.55rem .8rem; border-radius:6px;
+  color:var(--oxford); font-size:.88rem; }
+.dropdown-menu-oc li a:hover{ background:var(--bg); color:var(--prussian); }
+
+.navbar-toggler{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; }
+.navbar-toggler span{ width:24px; height:2px; background:var(--oxford); }
+
+@media (max-width:900px){
+  .navbar-toggler{ display:flex; }
+  .nav-list{
+    position:fixed; top:64px; left:0; right:0; background:var(--snow);
+    flex-direction:column; align-items:stretch; padding:1rem; gap:0;
+    transform:translateY(-110%); transition:transform .25s ease; box-shadow:0 10px 30px rgba(0,0,0,.1);
+  }
+  .nav-list.open{ transform:translateY(0); }
+  .nav-item{ width:100%; }
+  .nav-link{ width:100%; justify-content:space-between; padding:.8rem; }
+  .dropdown-menu-oc{ position:static; box-shadow:none; display:none; }
+  .dropdown-menu-oc.show{ display:block; }
+  .ms-cta{ margin:.5rem 0 0; text-align:center; }
+}

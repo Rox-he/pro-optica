@@ -1,0 +1,13 @@
+.nosotros-grid{ display:grid; grid-template-columns:1fr 1.4fr; gap:3rem; align-items:center; }
+.nosotros-art{ text-align:center; }
+.counters-row{ display:flex; gap:2rem; margin-top:1.5rem; }
+
+.mision-vision-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:3rem; }
+.mv-card{ background:rgba(255,251,254,.05); border:1px solid rgba(107,143,206,.25);
+  border-radius:var(--radius); padding:1.8rem; }
+.mv-text{ color:rgba(255,251,254,.78); font-weight:300; line-height:1.75; font-size:.93rem; margin:0; }
+
+@media(max-width:900px){
+  .nosotros-grid{ grid-template-columns:1fr; }
+  .mision-vision-grid{ grid-template-columns:1fr; }
+}

@@ -1,0 +1,44 @@
+<nav class="navbar-oc">
+  <div class="container nav-inner">
+    <a routerLink="/" class="navbar-brand" (click)="closeAll()">
+  <img src="/images/logo.png" alt="Óptica Convicción" height="40" onerror="this.style.display='none'">
+  <span class="logo-text">Óptica <strong>Convicción</strong></span>
+</a>
+
+    <button class="navbar-toggler" (click)="toggleMenu()" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-list" [class.open]="menuOpen">
+      <li *ngFor="let item of navItems" class="nav-item" [class.has-dropdown]="item.dropdown"
+          (mouseenter)="item.dropdown && abrirConHover(item.label)"
+          (mouseleave)="item.dropdown && cerrarConHover()">
+
+        <!-- Link simple -->
+        <a *ngIf="!item.dropdown" [routerLink]="item.link" routerLinkActive="active"
+           class="nav-link" (click)="closeAll()">{{ item.label }}</a>
+
+        <!-- Link con catálogo desplegable -->
+        <ng-container *ngIf="item.dropdown">
+          <button class="nav-link dropdown-toggle" (click)="toggleDropdown(item.label)">
+            {{ item.label }}
+            <svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          </button>
+          <ul class="dropdown-menu-oc" [class.show]="openDropdown === item.label">
+            <li *ngFor="let sub of item.dropdown">
+<a [routerLink]="sub.link" [fragment]="sub.fragment" (click)="closeAll()">{{ sub.label }}</a>
+            </li>
+          </ul>
+        </ng-container>
+      </li>
+
+      <li class="nav-item">
+        <app-buscador></app-buscador>
+      </li>
+
+      <li class="nav-item ms-cta">
+        <a routerLink="/contacto" class="btn-oc-cta" (click)="closeAll()">Agenda tu cita</a>
+      </li>
+    </ul>
+  </div>
+</nav>

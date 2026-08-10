@@ -1,0 +1,10 @@
+.resumen-oc{ padding:60px 0; }
+.mini-grid{ display:flex; justify-content:center; gap:2.2rem; margin-top:2rem; flex-wrap:wrap; }
+.mini-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; width:130px; text-align:center; }
+.mini-icon{ width:52px; height:52px; border-radius:50%; background:rgba(107,143,206,.12);
+  color:var(--prussian); display:flex; align-items:center; justify-content:center; }
+.mini-item span{ font-size:.85rem; font-weight:600; color:var(--oxford); }
+.resumen-cta{ text-align:center; margin-top:2rem; }
+.btn-oc-outline-dark{ display:inline-block; border:1.5px solid var(--prussian); color:var(--prussian);
+  border-radius:999px; padding:.55rem 1.4rem; font-size:.88rem; font-weight:600; }
+.btn-oc-outline-dark:hover{ background:var(--prussian); color:var(--snow); }

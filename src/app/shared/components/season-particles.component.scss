@@ -1,0 +1,33 @@
+.season-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.season-particles__item {
+  position: absolute;
+  opacity: 0;
+  animation-name: caer;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.season-particles--flotar .season-particles__item {
+  top: 10%;
+  animation-name: flotar;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes caer {
+  0%   { top: -10%; opacity: 0; transform: translateX(0) rotate(0deg); }
+  10%  { opacity: 0.85; }
+  90%  { opacity: 0.85; }
+  100% { top: 110%; opacity: 0; transform: translateX(24px) rotate(360deg); }
+}
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.25; }
+  50%      { transform: translateY(-30px) translateX(12px); opacity: 0.9; }
+}

@@ -1,0 +1,7 @@
+.legal-oc{ padding:60px 0 90px; }
+.legal-container{ max-width:760px; }
+.legal-container h1{ font-size:1.9rem; color:var(--oxford); margin-bottom:.3rem; }
+.legal-fecha{ color:var(--muted); font-size:.85rem; margin-bottom:2.2rem; }
+.legal-bloque{ margin-bottom:1.6rem; }
+.legal-bloque h2{ font-size:1.1rem; color:var(--prussian); margin-bottom:.5rem; }
+.legal-bloque p{ color:#374B5E; line-height:1.75; font-size:.94rem; }

@@ -1,0 +1,88 @@
+.admin-page{ padding:2rem; }
+.admin-header{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.6rem; flex-wrap:wrap; gap:1rem; }
+.admin-header h1{ font-size:1.7rem; color:var(--oxford); margin:.3rem 0; }
+
+.btn-nuevo{
+  display:flex; align-items:center; gap:.5rem;
+  background:var(--prussian); color:#fff; border:none; border-radius:999px;
+  padding:.6rem 1.3rem; font-size:.85rem; font-weight:600; cursor:pointer;
+}
+.btn-nuevo svg{ width:16px; height:16px; }
+.btn-nuevo:hover{ background:var(--oxford); }
+
+.stats-row{ display:flex; gap:1rem; margin-bottom:1.6rem; flex-wrap:wrap; }
+.stat-card{
+  background:#fff; border:1px solid var(--border); border-radius:12px;
+  padding:1rem 1.4rem; min-width:140px;
+}
+.stat-card span{ display:block; font-size:1.6rem; font-weight:700; color:var(--oxford); }
+.stat-card small{ color:var(--muted); font-size:.8rem; }
+.stat-ok span{ color:#2E9E5B; }
+
+.admin-table-wrap{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow-x:auto; }
+.admin-table{ width:100%; border-collapse:collapse; }
+.admin-table th{
+  text-align:left; padding:.9rem 1rem; font-size:.75rem; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--muted); border-bottom:1px solid var(--border);
+}
+.admin-table td{ padding:.8rem 1rem; border-bottom:1px solid var(--border); font-size:.88rem; color:var(--oxford); vertical-align:middle; }
+.admin-table tr:last-child td{ border-bottom:none; }
+.tabla-img{ width:44px; height:44px; object-fit:cover; border-radius:8px; }
+
+.acciones{ display:flex; gap:.5rem; }
+.btn-icon{
+  background:none; border:1px solid var(--border); border-radius:8px;
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--prussian);
+}
+.btn-icon svg{ width:15px; height:15px; }
+.btn-icon:hover{ background:var(--bg); }
+.btn-icon-del{ color:#D14343; }
+.btn-icon-del:hover{ background:#FCEAEA; border-color:#F3B8B8; }
+
+.admin-empty{ padding:2rem; text-align:center; color:var(--muted); }
+
+/* Modales */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(13,33,58,.5);
+  display:flex; align-items:center; justify-content:center; z-index:100; padding:1rem;
+}
+.modal-box{
+  background:#fff; border-radius:var(--radius); padding:2rem;
+  max-width:520px; width:100%; max-height:90vh; overflow-y:auto;
+}
+.modal-box h2{ color:var(--oxford); margin:0 0 1.4rem; font-size:1.3rem; }
+.modal-box label{ display:block; font-size:.82rem; color:var(--muted); margin:.8rem 0 .3rem; }
+.modal-box input, .modal-box select{
+  width:100%; border:1px solid var(--border); border-radius:8px;
+  padding:.55rem .8rem; font-family:'Montserrat',sans-serif; font-size:.9rem;
+}
+.modal-box input:focus, .modal-box select:focus{ outline:none; border-color:var(--un-blue); }
+.modal-error{ color:#D14343; font-size:.82rem; margin-top:.8rem; }
+
+.modal-actions{ display:flex; justify-content:flex-end; gap:.8rem; margin-top:1.6rem; }
+.modal-actions-center{ justify-content:center; }
+.btn-cancelar{
+  background:none; border:1px solid var(--border); border-radius:999px;
+  padding:.55rem 1.4rem; font-size:.85rem; cursor:pointer; color:var(--muted);
+}
+.btn-guardar, .btn-confirmar{
+  background:var(--prussian); color:#fff; border:none; border-radius:999px;
+  padding:.55rem 1.4rem; font-size:.85rem; font-weight:600; cursor:pointer;
+}
+.btn-guardar:hover, .btn-confirmar:hover{ background:var(--oxford); }
+.btn-guardar:disabled, .btn-confirmar:disabled{ opacity:.6; cursor:not-allowed; }
+
+.modal-confirm{ background:#fff; border-radius:var(--radius); padding:2rem; max-width:400px; width:100%; text-align:center; }
+.modal-confirm-icono{
+  width:56px; height:56px; margin:0 auto 1rem;
+  background:#FCEAEA; color:#D14343; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-confirm-icono svg{ width:26px; height:26px; }
+.modal-confirm h2{ color:var(--oxford); font-size:1.15rem; margin:0 0 .6rem; }
+.modal-confirm-texto{ color:var(--muted); font-size:.9rem; }
+.btn-confirmar-danger{ background:#D14343; }
+.btn-confirmar-danger:hover{ background:#B53434; }
+
+@media(max-width:700px){ .admin-header{ flex-direction:column; } }

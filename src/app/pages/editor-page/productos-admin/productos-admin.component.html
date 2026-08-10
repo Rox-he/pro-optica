@@ -1,0 +1,138 @@
+<section class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow-oc eyebrow-dark">Editor</p>
+      <h1>Administrar productos</h1>
+    </div>
+    <button class="btn-nuevo" (click)="nuevoProducto()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+        <path d="M3 6h18"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      Nuevo producto
+    </button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><span>{{ productos.length }}</span><small>Productos totales</small></div>
+    <div class="stat-card"><span>{{ categoriasUnicas.length }}</span><small>Categorías</small></div>
+    <div class="stat-card stat-ok"><span>{{ stockTotal }}</span><small>Piezas en stock</small></div>
+  </div>
+
+  <div class="admin-table-wrap">
+    <p *ngIf="cargando">Cargando productos...</p>
+
+    <table class="admin-table" *ngIf="!cargando && productos.length">
+      <thead>
+        <tr><th>Imagen</th><th>Nombre</th><th>Marca</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of productos">
+          <td><img [src]="'/images/' + p.imagen" [alt]="p.nombre" class="tabla-img"></td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.marca }}</td>
+          <td>{{ p.categoria }}</td>
+          <td>${{ p.precio }}</td>
+          <td>{{ p.stock }}</td>
+          <td class="acciones">
+            <button class="btn-icon" (click)="editar(p)" title="Editar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+              </svg>
+            </button>
+            <button class="btn-icon btn-icon-del" (click)="eliminar(p)" title="Eliminar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6"/>
+                <path d="M14 11v6"/>
+                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="admin-empty" *ngIf="!cargando && !productos.length">Aún no hay productos registrados.</p>
+  </div>
+</section>
+
+<!-- Modal crear/editar -->
+<div class="modal-overlay" *ngIf="mostrarForm" (click)="cerrarForm()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <h2>{{ editando ? 'Editar producto' : 'Nuevo producto' }}</h2>
+
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="modelo.nombre" name="nombre" placeholder="Nombre del producto" />
+
+    <label>Marca</label>
+    <input type="text" [(ngModel)]="modelo.marca" name="marca" placeholder="Marca" />
+
+    <label>Categoría</label>
+    <select [(ngModel)]="modelo.categoria" name="categoria">
+      <option value="Armazones">Armazones</option>
+      <option value="Lentes de contacto">Lentes de contacto</option>
+      <option value="Accesorios">Accesorios</option>
+    </select>
+
+    <label>Precio</label>
+    <input type="number" [(ngModel)]="modelo.precio" name="precio" min="0" step="0.01" />
+
+    <label>Color</label>
+    <input type="text" [(ngModel)]="modelo.color" name="color" placeholder="Color" />
+
+    <label>Material</label>
+    <input type="text" [(ngModel)]="modelo.material" name="material" placeholder="Material" />
+
+    <label>Género</label>
+    <select [(ngModel)]="modelo.genero" name="genero">
+      <option value="Unisex">Unisex</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Mujer">Mujer</option>
+      <option value="Niño">Niño</option>
+      <option value="Niña">Niña</option>
+    </select>
+
+    <label>Stock</label>
+    <input type="number" [(ngModel)]="modelo.stock" name="stock" min="0" />
+
+    <label>Nombre de archivo de imagen</label>
+    <input type="text" [(ngModel)]="modelo.imagen" name="imagen" placeholder="ej. imagen11.jpeg" />
+
+    <label>Descripción</label>
+    <input type="text" [(ngModel)]="modelo.descripcion" name="descripcion" placeholder="Descripción breve" />
+
+    <p class="modal-error" *ngIf="errorModal">{{ errorModal }}</p>
+
+    <div class="modal-actions">
+      <button class="btn-cancelar" (click)="cerrarForm()" [disabled]="guardando">Cancelar</button>
+      <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : (editando ? 'Guardar cambios' : 'Crear producto') }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal-overlay" *ngIf="confirmacion" (click)="cancelarConfirmacion()">
+  <div class="modal-confirm modal-confirm-danger" (click)="$event.stopPropagation()">
+    <div class="modal-confirm-icono">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+        <path d="M10 11v6"/>
+        <path d="M14 11v6"/>
+      </svg>
+    </div>
+    <h2>Eliminar producto</h2>
+    <p class="modal-confirm-texto">¿Eliminar "{{ confirmacion.nombre }}"? Esta acción no se puede deshacer.</p>
+    <div class="modal-actions modal-actions-center">
+      <button class="btn-cancelar" (click)="cancelarConfirmacion()" [disabled]="procesandoConfirmacion">Cancelar</button>
+      <button class="btn-confirmar btn-confirmar-danger" (click)="confirmarEliminar()" [disabled]="procesandoConfirmacion">
+        {{ procesandoConfirmacion ? 'Eliminando...' : 'Eliminar' }}
+      </button>
+    </div>
+  </div>
+</div>

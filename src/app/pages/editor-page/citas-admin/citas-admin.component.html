@@ -1,0 +1,54 @@
+<section class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow-oc eyebrow-dark">Editor</p>
+      <h1>Solicitudes de citas</h1>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><span>{{ citas.length }}</span><small>Solicitudes totales</small></div>
+    <div class="stat-card"><span>{{ pendientesCount }}</span><small>Pendientes</small></div>
+    <div class="stat-card stat-ok"><span>{{ citas.length - pendientesCount }}</span><small>Atendidas</small></div>
+  </div>
+
+  <div class="filtros-tabs">
+    <button [class.activo]="filtro === 'pendientes'" (click)="filtro = 'pendientes'">Pendientes</button>
+    <button [class.activo]="filtro === 'atendidas'" (click)="filtro = 'atendidas'">Atendidas</button>
+    <button [class.activo]="filtro === 'todas'" (click)="filtro = 'todas'">Todas</button>
+  </div>
+
+  <div class="admin-table-wrap">
+    <p *ngIf="cargando">Cargando citas...</p>
+
+    <table class="admin-table" *ngIf="!cargando && citasFiltradas.length">
+      <thead>
+        <tr><th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Servicio</th><th>Sucursal</th><th>Mensaje</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of citasFiltradas" [class.inactivo]="c.atendida">
+          <td>{{ formatearFecha(c.creado_en) }}</td>
+          <td>{{ c.nombre }}</td>
+          <td>
+            <div>{{ c.telefono }}</div>
+            <div class="texto-secundario">{{ c.correo }}</div>
+          </td>
+          <td>{{ c.servicio }}</td>
+          <td>{{ c.sucursal }}</td>
+          <td class="celda-mensaje">{{ c.mensaje || '—' }}</td>
+          <td>
+            <button class="toggle-atendida" [class.atendida]="c.atendida" (click)="toggleAtendida(c)">
+              <svg *ngIf="c.atendida" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              {{ c.atendida ? 'Atendida' : 'Marcar atendida' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="admin-empty" *ngIf="!cargando && !citasFiltradas.length">No hay citas en esta categoría.</p>
+  </div>
+</section>

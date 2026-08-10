@@ -1,0 +1,35 @@
+<section id="contacto" class="section-oc section-dark">
+  <div class="container">
+    <div class="section-head-oc">
+      <p class="eyebrow-oc">Hablemos</p>
+      <h2>Agenda tu cita o pide informes</h2>
+    </div>
+    <div class="contacto-grid">
+      <div class="contacto-form-col">
+        <app-contacto-form></app-contacto-form>
+      </div>
+      <div id="sucursales" class="contacto-sucursales-col">
+        <div class="sucursal-card">
+          <h3>Sucursal Lomas de San Pedrito</h3>
+          <p>📍 Av. Belén 802, Lomas de San Pedrito, 76158 Santiago de Querétaro, Qro.</p>
+          <p>📞 442 123 4567</p>
+          <p>🕐 Lunes a sábado, 9:00 a 19:00 hrs</p>
+          <app-mapa-sucursal
+            direccion="Av. Belén 802, Lomas de San Pedrito, 76158 Santiago de Querétaro, Qro."
+            nombreSucursal="Lomas de San Pedrito">
+          </app-mapa-sucursal>
+        </div>
+        <div class="sucursal-card">
+          <h3>Sucursal Nacional</h3>
+          <p>📍 Av. Pie de la Cuesta 2504, Nacional, 76148 Santiago de Querétaro, Qro.</p>
+          <p>📞 442 123 4567</p>
+          <p>🕐 Lunes a sábado, 9:00 a 19:00 hrs</p>
+          <app-mapa-sucursal
+            direccion="Av. Pie de la Cuesta 2504, Nacional, 76148 Santiago de Querétaro, Qro."
+            nombreSucursal="Nacional">
+          </app-mapa-sucursal>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
