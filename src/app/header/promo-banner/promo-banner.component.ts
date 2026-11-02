@@ -19,10 +19,11 @@ export class PromoBannerComponent implements OnInit {
   constructor(private eventoService: EventoCalendarioService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.evento = this.eventoService.obtenerEventoActivo();
-    if (this.evento) {
-      this.iconoSafe = this.sanitizer.bypassSecurityTrustHtml(this.evento.icono);
-    }
+    // La promoción viene de la base de datos (si la API falla, se usa la lista fija de respaldo).
+    this.eventoService.eventoVigente().subscribe(e => {
+      this.evento = e;
+      if (e) this.iconoSafe = this.sanitizer.bypassSecurityTrustHtml(e.icono);
+    });
   }
 
   cerrar() { this.cerrado = true; }

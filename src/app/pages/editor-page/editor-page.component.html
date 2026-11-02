@@ -19,8 +19,18 @@
       </div>
       <div class="editor-mod-card">
         <h3>Citas</h3>
-        <p>Ver solicitudes de citas recibidas y marcarlas como atendidas.</p>
+        <p>Revisar las solicitudes de citas y confirmarlas o rechazarlas.</p>
         <a routerLink="/editor/citas" class="btn-mod">Administrar</a>
+      </div>
+      <div class="editor-mod-card">
+        <h3>Pedidos</h3>
+        <p>Registrar pedidos de lentes y avisar al cliente cuando estén listos.</p>
+        <a routerLink="/editor/pedidos" class="btn-mod">Administrar</a>
+      </div>
+      <div class="editor-mod-card">
+        <h3>Promociones</h3>
+        <p>Crear y programar las promociones que se muestran en el sitio y en el reloj.</p>
+        <a routerLink="/editor/promociones" class="btn-mod">Administrar</a>
       </div>
 
       <div class="editor-mod-card" *ngIf="auth.usuario?.rol === 'Administrador'">

@@ -1,0 +1,109 @@
+<section class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow-oc eyebrow-dark">Editor</p>
+      <h1>Promociones</h1>
+    </div>
+    <button class="btn-nuevo" (click)="abrirNueva()" *ngIf="!mostrarForm">+ Nueva promoción</button>
+  </div>
+
+  <p class="aviso-ok" *ngIf="aviso">{{ aviso }}</p>
+
+  <!-- Formulario nueva / editar -->
+  <form class="form-card" *ngIf="mostrarForm" (ngSubmit)="guardar()" #f="ngForm">
+    <h2>{{ editandoId === null ? 'Nueva promoción' : 'Editar promoción' }}</h2>
+    <div class="form-grid">
+      <label>Nombre
+        <input type="text" name="nombre" [(ngModel)]="modelo.nombre" maxlength="80" required>
+      </label>
+      <label>Descuento (ej. 20% OFF, 2x1)
+        <input type="text" name="descuento" [(ngModel)]="modelo.descuento" maxlength="30" required>
+      </label>
+      <label>Aplica en (opcional)
+        <input type="text" name="detalle" [(ngModel)]="modelo.detalle" maxlength="150" placeholder="armazones infantiles">
+      </label>
+      <label>Título del banner (opcional)
+        <input type="text" name="titulo" [(ngModel)]="modelo.titulo" maxlength="120">
+      </label>
+      <label class="col-completa">Descripción del banner (opcional)
+        <textarea name="descripcion" rows="2" [(ngModel)]="modelo.descripcion" maxlength="255"></textarea>
+      </label>
+
+      <label>Inicia (cada año)
+        <span class="par">
+          <select name="di" [(ngModel)]="modelo.dia_inicio"><option *ngFor="let d of diasDe(modelo.mes_inicio)" [ngValue]="d">{{ d }}</option></select>
+          <select name="mi" [(ngModel)]="modelo.mes_inicio"><option *ngFor="let m of meses; let i = index" [ngValue]="i + 1">{{ m }}</option></select>
+        </span>
+      </label>
+      <label>Termina
+        <span class="par">
+          <select name="df" [(ngModel)]="modelo.dia_fin"><option *ngFor="let d of diasDe(modelo.mes_fin)" [ngValue]="d">{{ d }}</option></select>
+          <select name="mf" [(ngModel)]="modelo.mes_fin"><option *ngFor="let m of meses; let i = index" [ngValue]="i + 1">{{ m }}</option></select>
+        </span>
+      </label>
+
+      <label>Ícono
+        <select name="icono" [(ngModel)]="modelo.icono"><option *ngFor="let i of iconos" [value]="i">{{ i }}</option></select>
+      </label>
+      <label>Colores del banner
+        <span class="par">
+          <input type="color" name="cf" [(ngModel)]="modelo.color_fondo" title="Fondo">
+          <input type="color" name="ca" [(ngModel)]="modelo.color_acento" title="Acento">
+        </span>
+      </label>
+    </div>
+
+    <div class="vista-previa" [style.background]="modelo.color_fondo">
+      <span class="vp-chip" [style.background]="modelo.color_acento" [style.color]="modelo.color_fondo">
+        {{ modelo.nombre || 'Nombre' }} · {{ modelo.descuento || 'Descuento' }}
+      </span>
+      <strong [style.color]="'#fff'">{{ modelo.titulo || modelo.nombre || 'Título' }}</strong>
+    </div>
+
+    <p class="error-form" *ngIf="error">{{ error }}</p>
+    <div class="form-acciones">
+      <button type="button" class="btn-accion" (click)="cerrarForm()" [disabled]="guardando">Cancelar</button>
+      <button type="submit" class="btn-accion btn-confirmar" [disabled]="guardando">{{ guardando ? 'Guardando…' : 'Guardar' }}</button>
+    </div>
+  </form>
+
+  <div class="stats-row">
+    <div class="stat-card"><span>{{ promociones.length }}</span><small>Promociones</small></div>
+    <div class="stat-card stat-ok"><span>{{ activas }}</span><small>Activas</small></div>
+  </div>
+
+  <p class="error-form" *ngIf="error && !mostrarForm">{{ error }}</p>
+
+  <div class="admin-table-wrap">
+    <p *ngIf="cargando" class="admin-empty">Cargando promociones...</p>
+
+    <table class="admin-table" *ngIf="!cargando && promociones.length">
+      <thead>
+        <tr><th>Promoción</th><th>Descuento</th><th>Fechas (cada año)</th><th>Estado</th><th>Acción</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of promociones" [class.inactivo]="!p.activa">
+          <td>
+            <span class="muestra" [style.background]="p.color_fondo"><i [style.background]="p.color_acento"></i></span>
+            <strong>{{ p.nombre }}</strong>
+            <div class="texto-secundario" *ngIf="p.detalle">{{ p.detalle }}</div>
+          </td>
+          <td>{{ p.descuento }}</td>
+          <td>{{ rango(p) }}</td>
+          <td>
+            <span class="badge-estatus" [ngClass]="vigenteHoy(p) ? 'estatus-confirmada' : (p.activa ? 'estatus-en_proceso' : 'estatus-rechazada')">
+              {{ vigenteHoy(p) ? 'Vigente hoy' : (p.activa ? 'Activa' : 'Desactivada') }}
+            </span>
+          </td>
+          <td class="celda-acciones">
+            <button class="btn-accion" [disabled]="procesando === p.id" (click)="abrirEditar(p)">Editar</button>
+            <button class="btn-accion btn-revertir" [disabled]="procesando === p.id" (click)="alternar(p)">{{ p.activa ? 'Desactivar' : 'Activar' }}</button>
+            <button class="btn-accion btn-rechazar" [disabled]="procesando === p.id" (click)="eliminar(p)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="admin-empty" *ngIf="!cargando && !promociones.length">Aún no hay promociones. Crea la primera con “+ Nueva promoción”.</p>
+  </div>
+</section>

@@ -49,6 +49,8 @@
   transition: background 0.15s, color 0.15s;
   white-space: nowrap; overflow: hidden;
 }
+/* El atributo [hidden] (opciones sin permiso) no surtía efecto porque .nav-item usa display:flex */
+.nav-item[hidden] { display: none; }
 .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
 .nav-item.active { background: var(--prussian); color: #fff; }
 .nav-item-muted { color: rgba(255,255,255,0.5); }

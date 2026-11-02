@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const { verificarToken, requiereRol } = require('../middlewares/auth.middleware');
+const { validarProducto } = require('../helpers/validaciones.helper');
+const { proteger } = require('../middlewares/async.middleware');
 
 // ═══ GET todos los productos (público) ═══
 router.get('/', async (req, res) => {
@@ -29,9 +31,8 @@ router.get('/:id', async (req, res) => {
 // ═══ POST crear producto (Editor / Administrador) ═══
 router.post('/', verificarToken, requiereRol('Administrador', 'Editor'), async (req, res) => {
   const { nombre, marca, categoria, descripcion, precio, color, material, genero, imagen, stock } = req.body;
-  if (!nombre || !marca || !categoria || !precio) {
-    return res.status(400).json({ error: 'Nombre, marca, categoría y precio son requeridos' });
-  }
+  const errorProducto = validarProducto(req.body);
+  if (errorProducto) return res.status(400).json({ error: errorProducto });
   try {
     const [resultado] = await pool.execute(
       `INSERT INTO productos (nombre, marca, categoria, descripcion, precio, color, material, genero, imagen, stock)
@@ -53,6 +54,8 @@ router.put('/:id', verificarToken, requiereRol('Administrador', 'Editor'), async
 
   const [existe] = await pool.execute('SELECT id FROM productos WHERE id = ?', [id]);
   if (!existe.length) return res.status(404).json({ error: 'Producto no encontrado' });
+  const errorProducto = validarProducto(req.body);
+  if (errorProducto) return res.status(400).json({ error: errorProducto });
 
   try {
     await pool.execute(
@@ -83,4 +86,4 @@ router.delete('/:id', verificarToken, requiereRol('Administrador', 'Editor'), as
   }
 });
 
-module.exports = router;
+module.exports = proteger(router);

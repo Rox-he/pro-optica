@@ -16,8 +16,11 @@ export class AuthService {
   private _usuario = new BehaviorSubject<UsuarioSesion | null>(null);
   usuario$ = this._usuario.asObservable();
 
+  /** Se cumple cuando termina de restaurarse la sesión guardada (token). Los guards la esperan. */
+  readonly listo: Promise<void>;
+
   constructor(private router: Router) {
-    this.restaurarSesion();
+    this.listo = this.restaurarSesion();
   }
 
   get usuario(): UsuarioSesion | null { return this._usuario.value; }

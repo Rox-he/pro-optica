@@ -5,7 +5,7 @@ import { AuthService } from '../../auth/services/auth.service';
 
 interface NavItem {
   label: string;
-  icon: 'perfil' | 'usuarios' | 'editor' | 'productos' | 'citas' | 'generico';
+  icon: 'perfil' | 'usuarios' | 'editor' | 'productos' | 'citas' | 'pedidos' | 'promociones' | 'generico';
   ruta: string;
   rolesPermitidos: string[]; // vacío = visible para cualquier usuario autenticado
 }
@@ -28,6 +28,8 @@ export class AdminLayoutComponent {
     { label: 'Editar contenido',     icon: 'editor',    ruta: '/editor',           rolesPermitidos: ['Administrador', 'Editor'] },
     { label: 'Productos',            icon: 'productos', ruta: '/editor/productos', rolesPermitidos: ['Administrador', 'Editor'] },
     { label: 'Citas', icon: 'citas', ruta: '/editor/citas', rolesPermitidos: ['Administrador', 'Editor'] },
+    { label: 'Pedidos', icon: 'pedidos', ruta: '/editor/pedidos', rolesPermitidos: ['Administrador', 'Editor'] },
+    { label: 'Promociones', icon: 'promociones', ruta: '/editor/promociones', rolesPermitidos: ['Administrador', 'Editor'] },
   ];
 
   constructor(public auth: AuthService) {}

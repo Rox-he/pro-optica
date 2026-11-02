@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export interface EventoPromo {
   id: string;
@@ -20,6 +24,20 @@ const ICONO_REGALO = `<svg viewBox="0 0 64 64" width="56"><rect x="10" y="26" wi
 const ICONO_BOLSA = `<svg viewBox="0 0 64 64" width="56"><path d="M14 22h36l-3 32a4 4 0 0 1-4 4H21a4 4 0 0 1-4-4Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M22 22v-4a10 10 0 0 1 20 0v4" fill="none" stroke="currentColor" stroke-width="4"/></svg>`;
 const ICONO_FLOR = `<svg viewBox="0 0 64 64" width="56"><circle cx="32" cy="32" r="7" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="4"><circle cx="32" cy="14" r="8"/><circle cx="32" cy="50" r="8"/><circle cx="14" cy="32" r="8"/><circle cx="50" cy="32" r="8"/></g></svg>`;
 
+const ICONO_ETIQUETA = `<svg viewBox="0 0 64 64" width="56"><path d="M8 30 30 8h24v24L32 54Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><circle cx="43" cy="21" r="4" fill="currentColor"/></svg>`;
+
+// Nombre del ícono que se elige en el panel → dibujo SVG
+export const ICONOS_PROMO: Record<string, string> = {
+  sol: ICONO_SOL, mochila: ICONO_MOCHILA, regalo: ICONO_REGALO, bolsa: ICONO_BOLSA, flor: ICONO_FLOR, etiqueta: ICONO_ETIQUETA,
+};
+
+// Promoción tal como la entrega la API (/api/promociones/vigente)
+interface PromoApi {
+  id: number; nombre: string; titulo: string; descuento: string; detalle: string; descripcion: string;
+  color_fondo: string; color_acento: string; icono: string;
+}
+
+// Respaldo: si la API no responde, el sitio sigue mostrando estas promociones de temporada.
 const EVENTOS: EventoPromo[] = [
   {
     id: 'verano',
@@ -90,6 +108,31 @@ const EVENTOS: EventoPromo[] = [
 
 @Injectable({ providedIn: 'root' })
 export class EventoCalendarioService {
+  constructor(private http: HttpClient) {}
+
+  /** Promoción vigente según la base de datos. Si la API falla, usa la lista fija de respaldo. */
+  eventoVigente(fecha: Date = new Date()): Observable<EventoPromo | null> {
+    return this.http.get<PromoApi | null>(`${environment.apiUrl}/promociones/vigente`).pipe(
+      map(p => p ? this.aEvento(p) : null),
+      catchError(() => of(this.obtenerEventoActivo(fecha)))
+    );
+  }
+
+  private aEvento(p: PromoApi): EventoPromo {
+    return {
+      id: String(p.id),
+      nombre: p.nombre,
+      mensaje: p.detalle ? `${p.nombre} · ${p.detalle}` : p.nombre,
+      titulo: p.titulo || p.nombre,
+      descripcion: p.descripcion,
+      descuento: p.descuento,
+      colorFondo: p.color_fondo,
+      colorAcento: p.color_acento,
+      icono: ICONOS_PROMO[p.icono] || ICONOS_PROMO['etiqueta'],
+      inicio: { mes: 0, dia: 0 },
+      fin: { mes: 0, dia: 0 },
+    };
+  }
 
   obtenerEventoActivo(fecha: Date = new Date()): EventoPromo | null {
     const mes = fecha.getMonth() + 1;

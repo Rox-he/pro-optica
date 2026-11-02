@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const pool = require('../db');
 const { verificarToken, requiereRol } = require('../middlewares/auth.middleware');
 const { getCompleto } = require('../helpers/usuario.helper');
+const { emailValido } = require('../helpers/validaciones.helper');
+const { proteger } = require('../middlewares/async.middleware');
 
 // ═══ Listar usuarios ═══
 router.get('/users', verificarToken, requiereRol('Administrador'), async (req, res) => {
@@ -17,6 +19,8 @@ router.post('/users', verificarToken, requiereRol('Administrador'), async (req, 
   const { nombre, email, password, rol_nombre } = req.body;
   if (!nombre || !email || !password)
     return res.status(400).json({ error: 'Nombre, email y contraseña son requeridos' });
+  if (!emailValido(email))
+    return res.status(400).json({ error: 'El correo no tiene un formato válido' });
   if (password.length < 8)
     return res.status(400).json({ error: 'La contraseña debe tener mínimo 8 caracteres' });
 
@@ -42,6 +46,7 @@ router.put('/users/:id', verificarToken, requiereRol('Administrador'), async (re
   const id = parseInt(req.params.id);
   const { nombre, email } = req.body;
   if (!nombre || !email) return res.status(400).json({ error: 'Nombre y email son requeridos' });
+  if (!emailValido(email)) return res.status(400).json({ error: 'El correo no tiene un formato válido' });
 
   const [rows] = await pool.execute('SELECT id FROM usuarios WHERE id = ?', [id]);
   if (!rows.length) return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -58,6 +63,8 @@ router.put('/users/:id', verificarToken, requiereRol('Administrador'), async (re
 router.put('/users/:id/rol', verificarToken, requiereRol('Administrador'), async (req, res) => {
   const id = parseInt(req.params.id);
   const { rol_nombre } = req.body;
+  const [existeUsuario] = await pool.execute('SELECT id FROM usuarios WHERE id = ?', [id]);
+  if (!existeUsuario.length) return res.status(404).json({ error: 'Usuario no encontrado' });
   const [rolRows] = await pool.execute('SELECT id FROM roles WHERE nombre = ?', [rol_nombre]);
   if (!rolRows.length) return res.status(400).json({ error: 'Rol no válido' });
 
@@ -91,4 +98,4 @@ router.delete('/users/:id', verificarToken, requiereRol('Administrador'), async 
   res.json({ mensaje: 'Usuario eliminado permanentemente' });
 });
 
-module.exports = router;
+module.exports = proteger(router);

@@ -43,9 +43,9 @@
           <td>{{ u.nombre }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <select [value]="u.rol" (change)="cambiarRol(u, $any($event.target).value)"
+            <select (change)="cambiarRol(u, $any($event.target).value)"
                     [disabled]="u.id === auth.usuario?.id">
-              <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+              <option *ngFor="let r of roles" [value]="r" [selected]="r === u.rol">{{ r }}</option>
             </select>
           </td>
           <td><span [class]="u.activo ? 'chip-ok' : 'chip-no'">{{ u.activo ? 'Activo' : 'Inactivo' }}</span></td>

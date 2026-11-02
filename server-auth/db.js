@@ -9,6 +9,9 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || 'optica_conviccion',
   waitForConnections: true,
   connectionLimit: 10,
+  // Las columnas DATE (p. ej. citas.fecha_cita) se devuelven como "YYYY-MM-DD" y no como
+  // objeto Date, para que el día no se recorra según la zona horaria del servidor.
+  dateStrings: ['DATE'],
 });
 
 module.exports = pool;

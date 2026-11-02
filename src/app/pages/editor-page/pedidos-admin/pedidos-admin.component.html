@@ -1,0 +1,110 @@
+<section class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow-oc eyebrow-dark">Editor</p>
+      <h1>Pedidos de lentes</h1>
+    </div>
+    <button class="btn-nuevo" (click)="abrirForm()" *ngIf="!mostrarForm">+ Nuevo pedido</button>
+  </div>
+
+  <p class="aviso-ok" *ngIf="aviso">{{ aviso }}</p>
+
+  <!-- Formulario de nuevo pedido -->
+  <form class="form-card" *ngIf="mostrarForm" (ngSubmit)="guardar()" #f="ngForm">
+    <h2>Registrar pedido</h2>
+    <div class="form-grid">
+      <label>Nombre del cliente
+        <input type="text" name="nombre" [(ngModel)]="modelo.cliente_nombre" maxlength="120" required>
+      </label>
+      <label>Correo del cliente
+        <input type="email" name="correo" [(ngModel)]="modelo.cliente_correo" maxlength="150" required (blur)="revisarCorreo()">
+        <small class="hint hint-ok" *ngIf="cuentaEncontrada === true">Tiene cuenta ({{ nombreCuenta }}): recibirá los avisos en su reloj.</small>
+        <small class="hint hint-warn" *ngIf="cuentaEncontrada === false">No tiene cuenta con ese correo: no recibirá avisos en el reloj.</small>
+      </label>
+      <label>Teléfono (opcional)
+        <input type="tel" name="telefono" [(ngModel)]="modelo.cliente_telefono" maxlength="20">
+      </label>
+      <label>Armazón
+        <select name="producto" [(ngModel)]="modelo.producto_id" required>
+          <option value="">Elige un armazón…</option>
+          <option *ngFor="let p of productos" [value]="p.id">{{ p.marca }} — {{ p.nombre }}</option>
+          <option value="otro">Otro (escribir)</option>
+        </select>
+      </label>
+      <label *ngIf="modelo.producto_id === 'otro'">¿Cuál armazón?
+        <input type="text" name="armazon" [(ngModel)]="modelo.armazon" maxlength="150">
+      </label>
+      <label class="col-completa">Notas (graduación, tipo de mica, etc.)
+        <textarea name="notas" rows="2" [(ngModel)]="modelo.notas"></textarea>
+      </label>
+    </div>
+    <p class="error-form" *ngIf="error">{{ error }}</p>
+    <div class="form-acciones">
+      <button type="button" class="btn-accion" (click)="cerrarForm()" [disabled]="guardando">Cancelar</button>
+      <button type="submit" class="btn-accion btn-confirmar" [disabled]="guardando">{{ guardando ? 'Guardando…' : 'Guardar pedido' }}</button>
+    </div>
+  </form>
+
+  <div class="stats-row">
+    <div class="stat-card"><span>{{ pedidos.length }}</span><small>Pedidos totales</small></div>
+    <div class="stat-card stat-pend"><span>{{ contar('en_proceso') }}</span><small>En proceso</small></div>
+    <div class="stat-card stat-ok"><span>{{ contar('listo') }}</span><small>Listos para recoger</small></div>
+    <div class="stat-card stat-ent"><span>{{ contar('entregado') }}</span><small>Entregados</small></div>
+  </div>
+
+  <div class="filtros-tabs">
+    <button [class.activo]="filtro === 'en_proceso'" (click)="filtro = 'en_proceso'">En proceso</button>
+    <button [class.activo]="filtro === 'listo'" (click)="filtro = 'listo'">Listos</button>
+    <button [class.activo]="filtro === 'entregado'" (click)="filtro = 'entregado'">Entregados</button>
+    <button [class.activo]="filtro === 'todos'" (click)="filtro = 'todos'">Todos</button>
+  </div>
+
+  <div class="admin-table-wrap">
+    <p *ngIf="cargando" class="admin-empty">Cargando pedidos...</p>
+
+    <table class="admin-table" *ngIf="!cargando && pedidosFiltrados.length">
+      <thead>
+        <tr><th>Pedido</th><th>Cliente</th><th>Armazón</th><th>Notas</th><th>Reloj</th><th>Estatus</th><th>Acción</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of pedidosFiltrados" [class.inactivo]="p.estatus === 'entregado'">
+          <td class="celda-pedido">
+            <strong>#{{ p.id }}</strong>
+            <div class="texto-secundario">{{ formatearFecha(p.creado_en) }}</div>
+          </td>
+          <td>
+            <div>{{ p.cliente_nombre }}</div>
+            <div class="texto-secundario">{{ p.cliente_correo }}</div>
+            <div class="texto-secundario" *ngIf="p.cliente_telefono">{{ p.cliente_telefono }}</div>
+          </td>
+          <td>{{ p.armazon }}</td>
+          <td class="celda-notas">{{ p.notas || '—' }}</td>
+          <td>
+            <span class="badge-reloj" [class.reloj-si]="p.usuario_id" [class.reloj-no]="!p.usuario_id"
+                  [title]="p.usuario_id ? 'Recibe avisos en su reloj' : 'Sin cuenta ligada: no recibe avisos'">
+              {{ p.usuario_id ? 'Con aviso' : 'Sin cuenta' }}
+            </span>
+          </td>
+          <td>
+            <span class="badge-estatus" [ngClass]="'estatus-' + p.estatus">{{ etiqueta(p.estatus) }}</span>
+            <div class="texto-secundario" *ngIf="p.gestionado_por">por {{ p.gestionado_por }}</div>
+          </td>
+          <td class="celda-acciones">
+            <ng-container *ngIf="p.estatus === 'en_proceso'">
+              <button class="btn-accion btn-confirmar" [disabled]="procesando === p.id" (click)="cambiarEstatus(p, 'listo')">Marcar listo</button>
+            </ng-container>
+            <ng-container *ngIf="p.estatus === 'listo'">
+              <button class="btn-accion btn-confirmar" [disabled]="procesando === p.id" (click)="cambiarEstatus(p, 'entregado')">Marcar entregado</button>
+              <button class="btn-accion btn-revertir" [disabled]="procesando === p.id" (click)="cambiarEstatus(p, 'en_proceso')">Volver a en proceso</button>
+            </ng-container>
+            <ng-container *ngIf="p.estatus === 'entregado'">
+              <button class="btn-accion btn-revertir" [disabled]="procesando === p.id" (click)="cambiarEstatus(p, 'listo')">Volver a listo</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="admin-empty" *ngIf="!cargando && !pedidosFiltrados.length">No hay pedidos en esta categoría.</p>
+  </div>
+</section>

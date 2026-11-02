@@ -94,3 +94,94 @@ CREATE TABLE IF NOT EXISTS productos (
   activo      BOOLEAN        NOT NULL DEFAULT TRUE,
   creado_en   DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
+
+-- ── Tabla: citas ─────────────────────────────────────────────────────
+-- Solicitudes de cita enviadas desde el formulario de contacto.
+-- El asesor (Editor/Administrador) las confirma o rechaza; el estatus es
+-- el dato que consultará la app del wearable para notificar al cliente.
+-- usuario_id es opcional: si el cliente tenía sesión iniciada al agendar,
+-- la cita queda ligada a su cuenta.
+CREATE TABLE IF NOT EXISTS citas (
+  id             INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id     INT           NULL,
+  nombre         VARCHAR(120)  NOT NULL,
+  telefono       VARCHAR(20)   NOT NULL,
+  correo         VARCHAR(150)  NOT NULL,
+  servicio       VARCHAR(80)   NOT NULL,
+  sucursal       VARCHAR(120)  NOT NULL,
+  mensaje        TEXT          NULL,
+  fecha_cita     DATE          NULL,
+  hora_cita      TIME          NULL,
+  estatus        ENUM('pendiente','confirmada','rechazada') NOT NULL DEFAULT 'pendiente',
+  gestionado_por INT           NULL,
+  creado_en      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_citas_usuario   FOREIGN KEY (usuario_id)     REFERENCES usuarios(id) ON DELETE SET NULL,
+  CONSTRAINT fk_citas_gestor    FOREIGN KEY (gestionado_por) REFERENCES usuarios(id) ON DELETE SET NULL,
+  INDEX idx_citas_estatus (estatus),
+  INDEX idx_citas_usuario (usuario_id)
+) ENGINE=InnoDB;
+
+-- ── Parcial 2 ─────────────────────────────────────────────────────────
+-- ── Tabla: pedidos (Parcial 2) ───────────────────────────────────────
+-- Pedido de lentes de un cliente. Al pasar a "listo" se genera el aviso
+-- "Tu armazón ya está listo" para su wearable. usuario_id se llena solo
+-- cuando el correo del pedido coincide con una cuenta registrada.
+CREATE TABLE IF NOT EXISTS pedidos (
+  id               INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id       INT           NULL,
+  cliente_nombre   VARCHAR(120)  NOT NULL,
+  cliente_correo   VARCHAR(150)  NOT NULL,
+  cliente_telefono VARCHAR(20)   NULL,
+  producto_id      INT           NULL,
+  armazon          VARCHAR(150)  NOT NULL,
+  notas            TEXT          NULL,
+  estatus          ENUM('en_proceso','listo','entregado') NOT NULL DEFAULT 'en_proceso',
+  gestionado_por   INT           NULL,
+  listo_en         DATETIME      NULL,
+  creado_en        DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_pedidos_usuario  FOREIGN KEY (usuario_id)     REFERENCES usuarios(id)  ON DELETE SET NULL,
+  CONSTRAINT fk_pedidos_producto FOREIGN KEY (producto_id)    REFERENCES productos(id) ON DELETE SET NULL,
+  CONSTRAINT fk_pedidos_gestor   FOREIGN KEY (gestionado_por) REFERENCES usuarios(id)  ON DELETE SET NULL,
+  INDEX idx_pedidos_estatus (estatus),
+  INDEX idx_pedidos_usuario (usuario_id)
+) ENGINE=InnoDB;
+
+-- ── Tabla: notificaciones (Parcial 2) ────────────────────────────────
+-- Historial de avisos que consulta la app del wearable.
+CREATE TABLE IF NOT EXISTS notificaciones (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id    INT           NOT NULL,
+  tipo          ENUM('cita','pedido','promocion') NOT NULL,
+  titulo        VARCHAR(120)  NOT NULL,
+  mensaje       VARCHAR(255)  NOT NULL,
+  referencia_id INT           NULL,
+  leida         BOOLEAN       NOT NULL DEFAULT FALSE,
+  creado_en     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_notif_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  INDEX idx_notif_usuario (usuario_id, leida),
+  INDEX idx_notif_ref (tipo, referencia_id)
+) ENGINE=InnoDB;
+
+-- ── Tabla: promociones ───────────────────────────────────────────────
+-- Promociones por temporada (se repiten cada año: mes/día). Las administra
+-- el Editor/Administrador; las leen el sitio web y el wearable.
+CREATE TABLE IF NOT EXISTS promociones (
+  id           INT AUTO_INCREMENT PRIMARY KEY,
+  nombre       VARCHAR(80)  NOT NULL,
+  titulo       VARCHAR(120) NOT NULL,
+  descuento    VARCHAR(30)  NOT NULL,
+  detalle      VARCHAR(150) NOT NULL DEFAULT '',
+  descripcion  VARCHAR(255) NOT NULL DEFAULT '',
+  icono        VARCHAR(20)  NOT NULL DEFAULT 'etiqueta',
+  color_fondo  CHAR(7)      NOT NULL DEFAULT '#0D213A',
+  color_acento CHAR(7)      NOT NULL DEFAULT '#FFC93C',
+  mes_inicio   TINYINT      NOT NULL,
+  dia_inicio   TINYINT      NOT NULL,
+  mes_fin      TINYINT      NOT NULL,
+  dia_fin      TINYINT      NOT NULL,
+  activa       BOOLEAN      NOT NULL DEFAULT TRUE,
+  creado_en    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_promos_fechas (activa, mes_inicio, dia_inicio)
+) ENGINE=InnoDB;

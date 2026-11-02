@@ -31,7 +31,7 @@ export class AdminPageComponent implements OnInit {
   usuarios: UsuarioAdmin[] = [];
   cargando = false;
   error = '';
-  roles = ['Administrador', 'Editor'];
+  roles = ['Administrador', 'Editor', 'Cliente'];
   toast = ''; // mensaje temporal de confirmación
 
   // ── Modal crear/editar ──────────────────────────────────────────

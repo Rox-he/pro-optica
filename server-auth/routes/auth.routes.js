@@ -5,16 +5,16 @@ const jwt = require('jsonwebtoken');
 const pool = require('../db');
 const { verificarToken, JWT_SECRET } = require('../middlewares/auth.middleware');
 const { getCompleto } = require('../helpers/usuario.helper');
+const { validarRegistro } = require('../helpers/validaciones.helper');
+const { proteger } = require('../middlewares/async.middleware');
 
 const JWT_EXPIRES = '8h';
 
 // ═══ REGISTRO ═══
 router.post('/register', async (req, res) => {
   const { nombre, email, password } = req.body;
-  if (!nombre || !email || !password)
-    return res.status(400).json({ error: 'Todos los campos son requeridos' });
-  if (password.length < 8)
-    return res.status(400).json({ error: 'La contraseña debe tener mínimo 8 caracteres' });
+  const errorValidacion = validarRegistro({ nombre, email, password });
+  if (errorValidacion) return res.status(400).json({ error: errorValidacion });
 
   const [existe] = await pool.execute('SELECT id FROM usuarios WHERE email = ?', [email]);
   if (existe.length) return res.status(409).json({ error: 'El email ya está registrado' });
@@ -24,13 +24,14 @@ router.post('/register', async (req, res) => {
     'INSERT INTO usuarios (nombre, email, password_hash, activo) VALUES (?, ?, ?, TRUE)',
     [nombre, email, password_hash]
   );
-  // El rol "Usuario" ya no existe: a las cuentas registradas públicamente
-  // (endpoint no enlazado en la UI, pero se conserva funcional) se les
-  // asigna "Editor" por defecto.
-  const [rolEditor] = await pool.execute("SELECT id FROM roles WHERE nombre = 'Editor'");
-  if (rolEditor.length) {
-    await pool.execute('INSERT INTO usuario_rol (usuario_id, rol_id) VALUES (?, ?)', [resultado.insertId, rolEditor[0].id]);
+  // Las cuentas creadas con el registro público reciben el rol "Cliente", que no
+  // tiene permisos de edición. Si el rol aún no existe en la base, se crea.
+  let [rolCliente] = await pool.execute("SELECT id FROM roles WHERE nombre = 'Cliente'");
+  if (!rolCliente.length) {
+    await pool.execute("INSERT INTO roles (nombre, descripcion) VALUES ('Cliente', 'Cuenta de cliente: sin acceso al panel')");
+    [rolCliente] = await pool.execute("SELECT id FROM roles WHERE nombre = 'Cliente'");
   }
+  await pool.execute('INSERT INTO usuario_rol (usuario_id, rol_id) VALUES (?, ?)', [resultado.insertId, rolCliente[0].id]);
 
   const [rows] = await pool.execute('SELECT * FROM usuarios WHERE id = ?', [resultado.insertId]);
   const completo = await getCompleto(rows[0]);
@@ -71,4 +72,4 @@ router.post('/logout', verificarToken, (req, res) => {
   res.json({ mensaje: 'Sesión cerrada correctamente' });
 });
 
-module.exports = router;
+module.exports = proteger(router);

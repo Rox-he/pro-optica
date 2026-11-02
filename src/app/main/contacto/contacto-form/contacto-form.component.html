@@ -38,6 +38,18 @@
     </select>
     <small *ngIf="formInvalido && sucursal.invalid">Selecciona una sucursal.</small>
   </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Fecha de la cita</label>
+      <input type="date" name="fecha_cita" [(ngModel)]="modelo.fecha_cita" [min]="hoy" required #fecha="ngModel" class="fc-oc">
+      <small *ngIf="formInvalido && fecha.invalid">Elige una fecha.</small>
+    </div>
+    <div class="form-group">
+      <label>Hora</label>
+      <input type="time" name="hora_cita" [(ngModel)]="modelo.hora_cita" required #hora="ngModel" class="fc-oc">
+      <small *ngIf="formInvalido && hora.invalid">Elige una hora.</small>
+    </div>
+  </div>
   <div class="form-group">
     <label>Mensaje (opcional)</label>
     <textarea name="mensaje" [(ngModel)]="modelo.mensaje" rows="3" class="fc-oc" placeholder="Cuéntanos qué necesitas..."></textarea>
@@ -45,6 +57,6 @@
   <button type="submit" class="btn-oc-form" [disabled]="enviando">
   {{ enviando ? '⏳ Enviando...' : 'Enviar solicitud' }}
 </button>
-  <span *ngIf="enviado" class="form-status success">✅ ¡Solicitud enviada! Te contactaremos a la brevedad.</span>
-  <span *ngIf="error" class="form-status error">❌ Hubo un error al enviar. Intenta de nuevo.</span>
+  <span *ngIf="enviado" class="form-status success">✅ ¡Solicitud enviada! Un asesor confirmará tu cita a la brevedad.</span>
+  <span *ngIf="error" class="form-status error">❌ {{ errorServidor || 'Hubo un error al enviar. Intenta de nuevo.' }}</span>
 </form>

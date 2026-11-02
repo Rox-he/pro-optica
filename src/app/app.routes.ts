@@ -14,6 +14,8 @@ import { SucursalesPageComponent } from './pages/sucursales-page/sucursales-page
 import { NosotrosComponent } from './main/nosotros/nosotros.component';
 import { TestimoniosComponent } from './main/testimonios/testimonios.component';
 import { CitasAdminComponent } from './pages/editor-page/citas-admin/citas-admin.component';
+import { PedidosAdminComponent } from './pages/editor-page/pedidos-admin/pedidos-admin.component';
+import { PromocionesAdminComponent } from './pages/editor-page/promociones-admin/promociones-admin.component';
 // ── Auth ──────────────────────────────────────────────────────────────
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
@@ -77,6 +79,8 @@ export const routes: Routes = [
       { path: 'editor', component: EditorPageComponent, title: 'Editor', canActivate: [roleGuard], data: { roles: ['Administrador', 'Editor'] } },
       { path: 'editor/productos', component: ProductosAdminComponent, title: 'Administrar productos', canActivate: [roleGuard], data: { roles: ['Administrador', 'Editor'] } },
       { path: 'editor/citas', component: CitasAdminComponent, title: 'Solicitudes de citas', canActivate: [roleGuard], data: { roles: ['Administrador', 'Editor'] } },
+      { path: 'editor/pedidos', component: PedidosAdminComponent, title: 'Pedidos de lentes', canActivate: [roleGuard], data: { roles: ['Administrador', 'Editor'] } },
+      { path: 'editor/promociones', component: PromocionesAdminComponent, title: 'Promociones', canActivate: [roleGuard], data: { roles: ['Administrador', 'Editor'] } },
     ]
   },
 

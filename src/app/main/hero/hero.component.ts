@@ -18,6 +18,6 @@ export class HeroComponent implements OnInit {
   ngOnInit() {
     // Si hay un evento calendarizado activo, el fondo del hero cambia
     // a los colores de esa promoción (mismo servicio que usa el banner).
-    this.evento = this.eventoService.obtenerEventoActivo();
+    this.eventoService.eventoVigente().subscribe(e => (this.evento = e));
   }
 }
