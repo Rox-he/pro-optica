@@ -223,3 +223,27 @@ test('IT-17 el wearable recibe la promoción vigente y queda UN solo aviso en el
   const sinToken = await request(app).get('/api/wearable/avisos');
   assert.equal(sinToken.status, 401);
 });
+
+test('IT-18 una cita pedida SIN sesión se liga por correo al confirmarla y el reloj la recibe con su aviso', async () => {
+  const manana = new Date(Date.now() + 36 * 3600 * 1000 - 6 * 3600 * 1000).toISOString().slice(0, 10);
+  const pedir = await request(app).post('/api/citas').send({
+    nombre: 'Ana Cliente', telefono: '4421234567', correo: 'ana@test.mx', servicio: 'Examen visual',
+    sucursal: 'Sucursal Prueba — Centro', fecha_cita: manana, hora_cita: '12:00',
+  });
+  assert.equal(pedir.status, 201);
+  const [antes] = await pool.execute('SELECT usuario_id FROM citas WHERE id = ?', [pedir.body.id]);
+  assert.equal(antes[0].usuario_id, null, 'sin sesión no hay cuenta ligada todavía');
+
+  const editor = (await login(EDITOR.email, EDITOR.password)).body.token;
+  const conf = await request(app).put(`/api/citas/${pedir.body.id}/estatus`)
+    .set('Authorization', `Bearer ${editor}`).send({ estatus: 'confirmada' });
+  assert.equal(conf.status, 200);
+  const [despues] = await pool.execute('SELECT usuario_id FROM citas WHERE id = ?', [pedir.body.id]);
+  assert.ok(despues[0].usuario_id, 'ahora sí queda ligada a la cuenta de ana@test.mx');
+
+  const cliente = (await login('ana@test.mx', 'Ana-12345')).body.token;
+  const av = await request(app).get('/api/wearable/avisos').set('Authorization', `Bearer ${cliente}`);
+  assert.equal(av.status, 200);
+  assert.ok(av.body.cita, 'el reloj recibe la cita próxima');
+  assert.ok(av.body.historial.some(h => h.tipo === 'cita' && /confirmada/.test(h.titulo)), 'y el aviso "Tu cita fue confirmada"');
+});

@@ -36,9 +36,10 @@ router.get('/avisos', verificarToken, async (req, res) => {
     const [citas] = await pool.execute(
       `SELECT id, servicio, sucursal, fecha_cita, hora_cita
          FROM citas
-        WHERE usuario_id = ? AND estatus = 'confirmada' AND fecha_cita IS NOT NULL AND hora_cita IS NOT NULL
+        WHERE (usuario_id = ? OR correo = (SELECT email FROM usuarios WHERE id = ?))
+          AND estatus = 'confirmada' AND fecha_cita IS NOT NULL AND hora_cita IS NOT NULL
         ORDER BY fecha_cita, hora_cita`,
-      [uid]
+      [uid, uid]
     );
     let cita = null;
     for (const c of citas) {

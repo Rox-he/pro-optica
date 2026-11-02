@@ -114,8 +114,18 @@ router.put('/:id/estatus', verificarToken, requiereRol('Administrador', 'Editor'
 
   try {
     const [existe] = await pool.execute(
-      'SELECT id, usuario_id, sucursal, fecha_cita, hora_cita FROM citas WHERE id = ?', [id]);
+      'SELECT id, usuario_id, correo, sucursal, fecha_cita, hora_cita FROM citas WHERE id = ?', [id]);
     if (!existe.length) return res.status(404).json({ error: 'Cita no encontrada' });
+
+    // Si la cita se pidió sin iniciar sesión, se liga a la cuenta que tenga ese mismo correo
+    // (así el cliente la ve y recibe sus avisos en el reloj).
+    if (!existe[0].usuario_id) {
+      const [cuenta] = await pool.execute('SELECT id FROM usuarios WHERE email = ? AND activo = TRUE LIMIT 1', [existe[0].correo]);
+      if (cuenta.length) {
+        existe[0].usuario_id = cuenta[0].id;
+        await pool.execute('UPDATE citas SET usuario_id = ? WHERE id = ?', [cuenta[0].id, id]);
+      }
+    }
 
     await pool.execute(
       'UPDATE citas SET estatus = ?, gestionado_por = ? WHERE id = ?',
