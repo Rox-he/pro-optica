@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     res.json({ total: resultado.hits.total.value, resultados: productos });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error al realizar la búsqueda' });
+    res.status(503).json({ error: 'El servicio de búsqueda no está disponible por ahora' });
   }
 });
 

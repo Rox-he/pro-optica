@@ -13,6 +13,8 @@ const wearableRoutes = require('./routes/wearable.routes');
 const promocionesRoutes = require('./routes/promociones.routes');
 // ...
 
+const { aplicarSeguridad, manejoDeErrores } = require('./helpers/seguridad');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -22,6 +24,7 @@ const corsOptions = process.env.FRONTEND_URL
   ? { origin: process.env.FRONTEND_URL }
   : {};
 app.use(cors(corsOptions));
+aplicarSeguridad(app);
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -35,6 +38,7 @@ app.use('/api/wearable', wearableRoutes);
 app.use('/api/promociones', promocionesRoutes);
 
 app.get('/api/health', (_, res) => res.json({ ok: true, port: PORT }));
+manejoDeErrores(app);
 // Solo se enciende el servidor cuando se ejecuta directamente (npm start);
 // las pruebas importan la app sin abrir el puerto.
 if (require.main === module) {

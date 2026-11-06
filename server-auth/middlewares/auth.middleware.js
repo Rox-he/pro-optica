@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'optica-conviccion-jwt-secret-2026';
+if (!process.env.JWT_SECRET && (process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT)) {
+  throw new Error('Falta la variable JWT_SECRET: define un secreto largo y aleatorio en Railway.');
+}
 
 function verificarToken(req, res, next) {
   const auth = req.headers.authorization;
